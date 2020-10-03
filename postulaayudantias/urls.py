@@ -1,22 +1,14 @@
-"""postulaayudantias URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/3.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # El primer argumento de path es un prefijo para la url
+    # dentro del include se añaden las urls que tiene la app y se le da un namespace
+    # el namespace se utiliza por lo regular dentro de las views para referenciar una url
+    # al realizar un redirect
+    # por ejemplo. navegacion:inicio o navegacion:ayuda
     path('', include(('apps.navegacion.urls', 'app_name'), namespace='navegacion')),
+    path('plataforma/', include(('apps.plataforma.urls', 'app_name'), namespace='plataforma')),
+    path('postulaciones/', include(('apps.postulaciones.urls', 'app_name'), namespace='postulaciones')),
 ]
