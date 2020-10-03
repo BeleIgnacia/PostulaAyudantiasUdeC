@@ -7,6 +7,10 @@ class Inicio(TemplateView):
     template_name = 'navegacion/inicio.html'
 
 
+class Nosotros(TemplateView):
+    template_name = 'navegacion/nosotros.html'
+
+
 class Ayuda(TemplateView):
     template_name = 'navegacion/ayuda.html'
 
