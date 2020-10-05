@@ -3,7 +3,7 @@ from django.views.generic import CreateView
 
 
 class RegistrarAlumno(CreateView):
-    pass
+    template_name = 'plataforma/register_alumno.html'
 
 
 def iniciar_sesion(request):
