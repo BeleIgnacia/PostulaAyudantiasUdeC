@@ -28,12 +28,10 @@ class RegistrarAlumno(CreateView):
     def get_context_data(self, **kwargs):
         # Esta linea se repite siempre, solo le cambian la class
         context = super(RegistrarAlumno, self).get_context_data(**kwargs)
-
         # Aquí añadimos lo que queramos al context, en este caso un formulario
         # El context lo recibe el template y lo maneja el navegador
         if 'form' not in context:
             context['form'] = self.form_class(self.request.GET)
-
         # Al retornar se entrega el context al navegador
         return context
 
@@ -42,9 +40,8 @@ class RegistrarAlumno(CreateView):
         # Recibe formulario como una instancia
         instance = form.save(commit=False)
         # Aquí pueden editar la instancia
-
+        # En este caso usaremos el email como username igualmente
         instance.username = instance.email
-
         # Se guarda la instancia en la BD
         instance.save()
         # Redirect
