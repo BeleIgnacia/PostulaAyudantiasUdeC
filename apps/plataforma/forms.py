@@ -14,21 +14,21 @@ class RegistrarAlumnoForm(UserCreationForm):
         # Fields son los campos que utilizaremos
         # Podemos añadir y quitar campos siempre que permitan ser nulos o tengan default
         fields = [
-            'username',
+            #'username',
             'email',
             'password1',
             'password2',
         ]
         # Labels son nombres que utilizaremos para guiarnos dentro del template
         labels = {
-            'username': 'Nombre de usuario',
+            #'username': 'Nombre de usuario',
             'email': 'Dirección de correo',
             'password1': 'Contraseña',
             'password2': 'Repetir contraseña'
         }
         # widgets definen la entrada que se representa en el form
         widgets = {
-            'username': forms.TextInput(attrs={'placeholder': 'Nombre de usuario'}),
+            #'username': forms.TextInput(attrs={'placeholder': 'Nombre de usuario'}),
             'email': forms.EmailInput(attrs={'placeholder': 'Dirección de correo'}),
             'password1': forms.PasswordInput(attrs={'placeholder': 'Contraseña'}),
             'password2': forms.PasswordInput(attrs={'placeholder': 'Contraseña'}),
