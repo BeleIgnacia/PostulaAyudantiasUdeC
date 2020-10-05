@@ -25,7 +25,16 @@ class RegistrarAlumno(CreateView):
 
     # Función que se ejecuta antes de entregar el template
     def get_context_data(self, **kwargs):
-        pass
+        # Esta linea se repite siempre, solo le cambian la class
+        context = super(RegistrarAlumno, self).get_context_data(**kwargs)
+
+        # Aquí añadimos lo que queramos al context, en este caso un formulario
+        # El context lo recibe el template y lo maneja el navegador
+        if 'form' not in context:
+            context['form'] = self.form_class(self.request.GET)
+
+        # Al retornar se entrega el context al navegador
+        return context
 
     # Función que se ejecuta en caso que el formulario sea valido
     def form_valid(self, form):
