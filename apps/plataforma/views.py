@@ -65,6 +65,7 @@ def iniciar_sesion(request):
             usuario = Usuario.objects.get(username=username)
             # Almacena la pk de usuario para utilizar a futuro
             request.session['pk_usuario'] = usuario.pk
+            request.session['es_docente'] = usuario.es_docente
             request.session['es_administrador'] = usuario.es_administrador
             # Redirige
             return HttpResponseRedirect(reverse('plataforma:dashboard'))
@@ -76,5 +77,6 @@ def iniciar_sesion(request):
     return render(request, 'plataforma/login.html', context)
 
 
+# Pantalla principal luego de inciar sesión
 class Dashboard(TemplateView):
     template_name = 'plataforma/dashboard.html'
