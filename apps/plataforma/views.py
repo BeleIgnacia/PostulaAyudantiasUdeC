@@ -1,7 +1,8 @@
+from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.urls import reverse_lazy, reverse
+from django.views.generic import CreateView, TemplateView
 
 from apps.plataforma.forms import RegistrarAlumnoForm
 from apps.plataforma.models import Usuario
@@ -54,8 +55,7 @@ class RegistrarAlumno(CreateView):
 def iniciar_sesion(request):
     # Metodos post en caso de hacer un POST obviously
     if request.method == 'POST':
-        # Esto hay que adadptarlo
-        '''username = request.POST.get('username')
+        username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
@@ -67,10 +67,14 @@ def iniciar_sesion(request):
             request.session['pk_usuario'] = usuario.pk
             request.session['es_administrador'] = usuario.es_administrador
             # Redirige
-            return HttpResponseRedirect(reverse('hogar:dashboard'))'''
+            return HttpResponseRedirect(reverse('plataforma:dashboard'))
         pass
 
     # Contexto con variables que se le entrega al template
     context = {}
     # Despliega el template dentro del navegador
     return render(request, 'plataforma/login.html', context)
+
+
+class Dashboard(TemplateView):
+    template_name = 'plataforma/dashboard.html'
