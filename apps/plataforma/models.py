@@ -13,4 +13,17 @@ class Usuario(User):
 
     # Esta función se usa para representar el objeto al realizar una query
     def __str__(self):
-        return '{}'.format(self.user)
+        return '{} {}'.format(self.user.first_name, self.user.last_name)
+
+
+'''
+class Curso(models.Model):
+    docente = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    # Atributos
+    codigo = models.IntegerField()
+    nombre = models.CharField(max_length=50, null=False)
+    descripcion = models.TextField()
+
+    def __str__(self):
+        return '({}) {}'.format(self.codigo, self.nombre)
+'''
