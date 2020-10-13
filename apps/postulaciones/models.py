@@ -4,7 +4,8 @@ from django.db import models
 from apps.plataforma.models import Usuario, Curso
 
 class Ayudantia(models.Model):
-    docente = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    # Si se quita docente se desliga la ayudantia del docente y solo se asocia al curso
+    # docente = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
     # Atributos
     semestre = models.IntegerField(default=2)
