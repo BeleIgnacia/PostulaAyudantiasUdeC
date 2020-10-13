@@ -1,7 +1,7 @@
 from django.db import models
 
-'''
 from apps.plataforma.models import Usuario, Curso
+
 
 class Ayudantia(models.Model):
     # Si se quita docente se desliga la ayudantia del docente y solo se asocia al curso
@@ -11,7 +11,7 @@ class Ayudantia(models.Model):
     semestre = models.IntegerField(default=2)
     horario = models.CharField(max_length=50)
     descripcion = models.TextField()
-    requisito = model.CharField(max_length=50)
+    requisito = models.CharField(max_length=50)
     puestos = models.IntegerField(default=1)
 
     def __str__(self):
@@ -28,4 +28,3 @@ class Postulacion(models.Model):
 
     def __str__(self):
         return 'Postulación de {} a {}'.format(self.alumno, self.ayudantia)
-'''

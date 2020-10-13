@@ -16,7 +16,6 @@ class Usuario(User):
         return '{} {}'.format(self.user.first_name, self.user.last_name)
 
 
-'''
 class Curso(models.Model):
     docente = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     # Atributos
@@ -26,4 +25,3 @@ class Curso(models.Model):
 
     def __str__(self):
         return '({}) {}'.format(self.codigo, self.nombre)
-'''
