@@ -19,7 +19,7 @@ class Usuario(User):
 class Curso(models.Model):
     docente = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     # Atributos
-    codigo = models.IntegerField()
+    codigo = models.PositiveBigIntegerField(default=0)
     nombre = models.CharField(max_length=50, null=False)
     descripcion = models.TextField()
 

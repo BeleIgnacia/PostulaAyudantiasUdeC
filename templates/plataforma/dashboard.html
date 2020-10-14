@@ -9,6 +9,13 @@
         </button>
         {% if request.session.es_docente is True %}
             <!--Navbar de docente-->
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/plataforma/nuevo_curso/">Nuevo Curso</a>
+                    </li>
+                </ul>
+            </div>
         {% elif request.session.es_administrador is True %}
             <!--Navbar de administrador-->
             <div class="collapse navbar-collapse" id="navbarColor01">

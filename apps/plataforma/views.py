@@ -4,8 +4,8 @@ from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, TemplateView
 
-from apps.plataforma.forms import RegistrarUsuarioForm
-from apps.plataforma.models import Usuario
+from apps.plataforma.forms import RegistrarUsuarioForm, NuevoCursoForm
+from apps.plataforma.models import Usuario, Curso
 
 
 # Esta es una vista para creación de un modelo
@@ -16,7 +16,7 @@ class RegistrarAlumno(CreateView):
     # El formulario que se despliega dentro de la vista
     form_class = RegistrarUsuarioForm
     # El html que se muestra en el navegador
-    template_name = 'plataforma/register_alumno.html'
+    template_name = 'plataforma/registrar_alumno.html'
     # La dirección en caso de que el formulario sea correcto
     # aquí se utiliza namespace:name
     success_url = reverse_lazy('iniciar_sesion')
@@ -99,3 +99,16 @@ class RegistrarDocente(CreateView):
         instance.save()
         return HttpResponseRedirect(reverse_lazy('plataforma:registrar_docente'))
 
+
+class NuevoCurso(CreateView):
+    model = Curso
+    form_class = NuevoCursoForm
+    template_name = 'plataforma/nuevo_curso.html'
+    success_url = reverse_lazy('plataforma:nuevo_curso')
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        docente = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
+        instance.docente = docente
+        instance.save()
+        return HttpResponseRedirect(reverse_lazy('plataforma:nuevo_curso'))

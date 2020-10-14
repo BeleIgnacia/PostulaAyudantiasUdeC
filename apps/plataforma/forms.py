@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 
-from apps.plataforma.models import Usuario
+from apps.plataforma.models import Usuario, Curso
 
 
 # Formulario para registro de alumno
@@ -35,4 +35,27 @@ class RegistrarUsuarioForm(UserCreationForm):
             'last_name': forms.TextInput(attrs={'placeholder': 'Apellido'}),
             'password1': forms.PasswordInput(attrs={'placeholder': 'Contraseña'}),
             'password2': forms.PasswordInput(attrs={'placeholder': 'Contraseña'}),
+        }
+
+
+class NuevoCursoForm(forms.ModelForm):
+    class Meta:
+        model = Curso
+
+        fields = [
+            'codigo',
+            'nombre',
+            'descripcion',
+        ]
+
+        labels = {
+            'codigo': 'Código del Curso',
+            'nombre': 'Nombre del Curso',
+            'descripcion': 'Descripción breve',
+        }
+
+        widgets = {
+            'codigo': forms.NumberInput(attrs={'placeholder': 'Código'}),
+            'nombre': forms.TextInput(attrs={'placeholder': 'Nombre'}),
+            'descripcion': forms.Textarea(attrs={'placeholder': 'Descripción'}),
         }
