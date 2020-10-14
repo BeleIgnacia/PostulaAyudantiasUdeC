@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, TemplateView
 
-from apps.plataforma.forms import RegistrarAlumnoForm
+from apps.plataforma.forms import RegistrarUsuarioForm
 from apps.plataforma.models import Usuario
 
 
@@ -14,7 +14,7 @@ class RegistrarAlumno(CreateView):
     # Se define el modelo sobre el que añade una instancia
     model = Usuario
     # El formulario que se despliega dentro de la vista
-    form_class = RegistrarAlumnoForm
+    form_class = RegistrarUsuarioForm
     # El html que se muestra en el navegador
     template_name = 'plataforma/register_alumno.html'
     # La dirección en caso de que el formulario sea correcto
@@ -80,3 +80,22 @@ def iniciar_sesion(request):
 # Pantalla principal luego de inciar sesión
 class Dashboard(TemplateView):
     template_name = 'plataforma/dashboard.html'
+
+
+class RegistrarDocente(CreateView):
+    model = Usuario
+    form_class = RegistrarUsuarioForm
+    template_name = 'plataforma/registrar_docente.html'
+    success_url = reverse_lazy('plataforma:registrar_docente')
+
+    def get_context_data(self, **kwargs):
+        context = super(RegistrarDocente, self).get_context_data(**kwargs)
+        return context
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.username = instance.email
+        instance.es_docente = True
+        instance.save()
+        return HttpResponseRedirect(reverse_lazy('plataforma:registrar_docente'))
+

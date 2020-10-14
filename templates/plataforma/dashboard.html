@@ -3,10 +3,24 @@
 
 {% block header %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-gradient-primary">
-        <a class="navbar-brand" href="#">Inicio</a>
+        <a class="navbar-brand" href="/plataforma/">Inicio</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        {% if request.session.es_docente is True %}
+            <!--Navbar de docente-->
+        {% elif request.session.es_administrador is True %}
+            <!--Navbar de administrador-->
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/plataforma/nuevo_docente/">Nuevo Docente</a>
+                    </li>
+                </ul>
+            </div>
+        {% else %}
+            <!--Navbar de alumno-->
+        {% endif %}
     </nav>
 {% endblock %}
 

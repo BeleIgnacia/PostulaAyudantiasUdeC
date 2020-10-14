@@ -6,7 +6,7 @@ from apps.plataforma.models import Usuario
 
 # Formulario para registro de alumno
 # El formulario hereda del formulario de creación de usuario por defecto
-class RegistrarAlumnoForm(UserCreationForm):
+class RegistrarUsuarioForm(UserCreationForm):
     # Se define una subclase Meta en la que se determinan los parametros de entrada
     class Meta:
         # Model es el modelo en la bd que utiliza para saber donde añadir la entrada
