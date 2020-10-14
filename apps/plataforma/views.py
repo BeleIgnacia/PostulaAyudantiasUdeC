@@ -67,6 +67,8 @@ def iniciar_sesion(request):
             request.session['pk_usuario'] = usuario.pk
             request.session['es_docente'] = usuario.es_docente
             request.session['es_administrador'] = usuario.es_administrador
+            request.session['first_name'] = usuario.first_name
+            request.session['last_name'] = usuario.last_name
             # Redirige
             return HttpResponseRedirect(reverse('plataforma:dashboard'))
         pass

@@ -32,6 +32,13 @@
 {% endblock %}
 
 {% block content %}
-    {{ request.session.es_administrador }}
-    {{ request.session.es_docente }}
+    <div class="jumbotron">
+        {% if request.session.es_administador is True %}
+            <h2>Bienvenido {{ request.session.first_name }} {{ request.session.last_name }} al panel de administración.</h2>
+        {% elif request.session.es_docente is True %}
+            <h2>Bienvenido {{ request.session.first_name }} {{ request.session.last_name }} al panel de docencia.</h2>
+        {% else %}
+            <h2>Bienvenido {{ request.session.first_name }} {{ request.session.last_name }} al panel de postulación.</h2>
+        {% endif %}
+    </div>
 {% endblock %}
