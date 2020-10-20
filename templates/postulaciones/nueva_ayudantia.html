@@ -1,0 +1,60 @@
+{% extends 'plataforma/dashboard.html' %}
+
+{% block content %}
+    <!-------- CON FORM -------->
+    <!--<div class="jumbotron">
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                {{ field.label }}:<br>
+                {{ field }}<br><br>
+            {% endfor %}
+            <input class="btn btn-primary" type="submit" value="Publicar ayudantía">
+        </form>
+    </div>-->
+
+    <!-------- POR MIENTRAS -------->
+    <div class="jumbotron" style="background-color: white;">
+        <form method="post">
+            <fieldset>
+                <legend>Nueva oferta de ayudantía</legend>
+
+                <div class="form-group" style="width: 30%;">
+                    <label for="curso">Curso:</label>
+                    <select class="form-control" id="curso">
+                      <option selected disabled hidden>Seleccionar</option>
+                      <option>Proyecto Informático</option>
+                      <option>Gestión Informática</option>
+                    </select>
+                </div>
+
+                <div class="form-group" style="width: 5%;">
+                    <label for="semestre">Semestre:</label><br>
+                    <input type="number" class="form-control" name="semestre" value="2" min="1" max="2">
+                </div>
+
+                <div class="form-group" style="width: 30%;">
+                    <label for="horario">Horario:</label>
+                    <input type="text" class="form-control" id="horario" placeholder="Ej: Viernes 8,9">
+                </div>
+
+                <div class="form-group" style="width: 30%;">
+                    <label for="descripcion">Descripción:</label>
+                    <textarea class="form-control" id="descripcion" rows="2"></textarea>
+                </div>
+
+                <div class="form-group" style="width: 30%;">
+                    <label for="requisitos">Requisitos:</label>
+                    <input type="text" class="form-control" id="requisitos" placeholder="Ej: Gestión de Empresas, Formulación y Evaluación de Proyectos">
+                </div>
+
+                <div class="form-group" style="width: 5%;">
+                    <label for="puestos">Vacantes:</label>
+                    <input type="number" class="form-control" name="puestos" value="1" min="1" max="10">
+                </div>
+
+                <input class="btn btn-primary" type="submit" value="Publicar ayudantía" disabled>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}
