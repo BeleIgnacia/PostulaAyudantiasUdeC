@@ -1,0 +1,48 @@
+{% extends 'plataforma/dashboard.html' %}
+
+{% block content %}
+<table class="table table-bordered">
+	<thead>
+		<tr>
+            <td>Código</td>
+			<td>Nombre</td>
+			<td>Profesor</td>
+            <td>Semestre</td>
+			<td>Requisitos</td>
+			<td>Horario</td>
+			<td>Puestos</td>
+		</tr>
+		
+	</thead>
+	<tbody>
+		{% if object_list %}
+		{% for Ayudantia in object_list %}
+		<tr>
+            <td>{{ Ayudantia.curso.codigo}}</td>        
+			<td>{{ Ayudantia.curso.nombre}}</td>
+			<td>{{ Ayudantia.curso.docente }}</td>
+			<td>{{ Ayudantia.semestre }}</td>
+			<td>{{ Ayudantia.requisito }}</td>
+			<td>{{ Ayudantia.horario }}</td>
+			<td>{{ Ayudantia.puestos }}</td>
+    	
+        {% endfor %}
+		
+		{% else %}
+		<h1>No hay ofertas de asignaturas para el Semestre actual</h1>
+		{% endif %}
+	</tbody>
+</table> 
+<ul class="pager">
+	<li>
+		{% if page_obj.has_previous %}
+       	 <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+		{% endif %}
+        </li>
+	<li>
+		{% if page_obj.has_next %}
+     	 <a href="?page={{ page_obj.next_page_number }}">Next</a> 
+    	{% endif %}
+    </li>
+</ul>
+{% endblock%}

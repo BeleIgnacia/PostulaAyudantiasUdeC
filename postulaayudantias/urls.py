@@ -16,4 +16,5 @@ urlpatterns = [
     # Entradas de registro e inicio de sesión
     path('registro/', RegistrarAlumno.as_view(), name='register_alumno'),
     path('iniciar/', iniciar_sesion, name='iniciar_sesion'),
+    
 ]

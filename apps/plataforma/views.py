@@ -114,3 +114,4 @@ class NuevoCurso(CreateView):
         instance.docente = docente
         instance.save()
         return HttpResponseRedirect(reverse_lazy('plataforma:nuevo_curso'))
+
