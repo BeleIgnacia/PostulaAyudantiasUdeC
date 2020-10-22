@@ -22,11 +22,11 @@ class RegistrarPostulacionAyudantia(forms.ModelForm):
             'puestos':'Nº de puestos vacantes',
         }
         widgets = {
-            'cursoid': forms.IntegerInput(attrs={'placeholder': 'Código'}),
+            'cursoid': forms.TextInput(attrs={'placeholder': 'Código'}),
             'semestre': forms.TextInput(attrs={'placeholder': 'Semestre'}),
             'descripcion': forms.TextInput(attrs={'placeholder': 'Descripción'}),
             'horario': forms.TextInput(attrs={'placeholder': 'Horario'}),
             'requisitos': forms.TextInput(attrs={'placeholder': 'Requisitos'}),
-            'puestos': forms.IntegerInput(attrs={'placeholder': 'Nº de puestos vacantes'}),
+            'puestos': forms.TextInput(attrs={'placeholder': 'Nº de puestos vacantes'}),
         }
 
