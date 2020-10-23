@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Como añadir app
     # 'apps.nombre_de_app',
-    'bootstrap4',
     'apps.navegacion',
     'apps.plataforma',
     'apps.postulaciones',
