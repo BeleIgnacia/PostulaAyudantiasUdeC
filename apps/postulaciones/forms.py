@@ -1,32 +1,31 @@
 from django import forms
-from apps.plataforma.models import Ayudantia,Postulacion
+from apps.postulaciones.models import Ayudantia,Postulacion
 
 
 class RegistrarPostulacionAyudantia(forms.ModelForm):
     class Meta:
         model = Ayudantia
         fields = [
-            'cursoid',
+            'curso',
             'semestre',
             'descripcion',
             'horario',
-            'requisitos',
+            'requisito',
             'puestos',
         ]
         labels = {
-            'cursoid': 'Código del curso',
+            'curso': 'Curso',
             'semestre': 'Semestre',
             'descripcion': 'Descripción breve',
             'horario': 'Horario',
-            'requisitos': 'Requisitos del curso',
+            'requisito': 'Requisitos del curso',
             'puestos':'Nº de puestos vacantes',
         }
         widgets = {
-            'cursoid': forms.TextInput(attrs={'placeholder': 'Código'}),
-            'semestre': forms.TextInput(attrs={'placeholder': 'Semestre'}),
-            'descripcion': forms.TextInput(attrs={'placeholder': 'Descripción'}),
-            'horario': forms.TextInput(attrs={'placeholder': 'Horario'}),
-            'requisitos': forms.TextInput(attrs={'placeholder': 'Requisitos'}),
-            'puestos': forms.TextInput(attrs={'placeholder': 'Nº de puestos vacantes'}),
+            'semestre': forms.NumberInput(attrs={'placeholder': 'Semestre', 'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={'placeholder': 'Descripción', 'class': 'form-control'}),
+            'horario': forms.TextInput(attrs={'placeholder': 'Ej: Martes 10:15 - 12:00', 'class': 'form-control'}),
+            'requisito': forms.TextInput(attrs={'placeholder': 'Ej: Ingeniería de Software 2', 'class': 'form-control'}),
+            'puestos': forms.NumberInput(attrs={'placeholder': 'Nº de puestos vacantes', 'class': 'form-control'}),
         }
 
