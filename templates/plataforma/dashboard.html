@@ -14,6 +14,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/plataforma/nuevo_curso/">Nuevo Curso</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/postulaciones/nueva_ayudantia/">Nueva ayudantía</a>
+                    </li>
                 {% elif request.session.es_administrador is True %}
                     <!--Navbar de administrador-->
                     <li class="nav-item">
@@ -22,6 +25,9 @@
                 {% else %}
                     <!--Navbar de alumno-->
                 {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/postulaciones/ofertas_ayudantias/">Ofertas de ayudantias</a>
+                    </li>
             </ul>
             <a href="/" type="button" class="btn btn-secondary">Cerrar sesión</a>
         </div>
