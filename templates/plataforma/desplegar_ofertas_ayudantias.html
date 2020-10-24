@@ -1,76 +1,78 @@
 <head>
-{% extends 'plataforma/dashboard.html' %}
-{% load static %}
-<title>Ofertas de Ayudantias</title>
-<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" >
-<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    {% extends 'plataforma/dashboard.html' %}
+    {% load static %}
+    <title>Ofertas de Ayudantias</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
 </head>
 
 <body>
 
 {% block content %}
+<div class="jumbotron" style="background-color: white;">
 
-<table class="table table-bordered">
-	<thead>
-		<tr>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
             <td>Código</td>
-			<td>Nombre</td>
-			<td>Profesor</td>
+            <td>Nombre</td>
+            <td>Profesor</td>
             <td>Semestre</td>
-			<td>Requisitos</td>
-			<td>Horario</td>
-			<td>Puestos</td>
-		</tr>
-		
-	</thead>
-	<tbody>
-		{% if object_list %}
-		{% for Ayudantia in object_list %}
-		<tr>
-            <td>{{ Ayudantia.curso.codigo}}</td>        
-			<td>{{ Ayudantia.curso.nombre}}</td>
-			<td>{{ Ayudantia.curso.docente }}</td>
-			<td>{{ Ayudantia.semestre }}</td>
-			<td>{{ Ayudantia.requisito }}</td>
-			<td>{{ Ayudantia.horario }}</td>
-			<td>{{ Ayudantia.puestos }}</td>
-    	
-        {% endfor %}
-		
-		{% else %}
-		<h1>No hay ofertas de asignaturas para el Semestre actual</h1>
-		{% endif %}
-	</tbody>
-</table> 
+            <td>Requisitos</td>
+            <td>Horario</td>
+            <td>Puestos</td>
+        </tr>
+
+        </thead>
+        <tbody>
+        {% if object_list %}
+            {% for Ayudantia in object_list %}
+                <tr>
+                <td>{{ Ayudantia.curso.codigo }}</td>
+                <td>{{ Ayudantia.curso.nombre }}</td>
+                <td>{{ Ayudantia.curso.docente }}</td>
+                <td>{{ Ayudantia.semestre }}</td>
+                <td>{{ Ayudantia.requisito }}</td>
+                <td>{{ Ayudantia.horario }}</td>
+                <td>{{ Ayudantia.puestos }}</td>
+
+            {% endfor %}
+
+        {% else %}
+            <h1>No hay ofertas de asignaturas para el Semestre actual</h1>
+        {% endif %}
+        </tbody>
+    </table>
 
 
-{% if object_list %}
-	<div class="card-deck">
-{% for Ayudantia in object_list %}
+    {% if object_list %}
+        <div class="card-deck">
+            {% for Ayudantia in object_list %}
 
-	
-   
-	<div class="card-group">
-	<div class="card " style="width: 18rem;"> 
-			<div class="card-body">        
-				<h5 class="card-title">{{Ayudantia.curso.nombre}}</h5>
-				<h6 class="card-subtitle mb-2 text-muted">Código:{{ Ayudantia.curso.codigo}}</h6>
-				<p class="card-text">{{ Ayudantia.semestre }}</p>
-				<p class="card-text">{{ Ayudantia.descripcion }}</p>
-				<div class="text-center">
-				<a href="#" class="btn btn-secundary ">Detalles</a>
-				<a href="#" class="btn btn-primary" >Postular</a>
-				</div>
-			</div>
-		</div>	
-	</div>	
-	
-{% endfor %}
-</div>	
-{% else %}
-		<h1>No hay ofertas de asignaturas para el Semestre actual</h1>
-{% endif %}
 
-{% endblock%}
+
+                <div class="card-group">
+                    <div class="card " style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ Ayudantia.curso.nombre }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Código:{{ Ayudantia.curso.codigo }}</h6>
+                            <p class="card-text">{{ Ayudantia.semestre }}</p>
+                            <p class="card-text">{{ Ayudantia.descripcion }}</p>
+                            <div class="text-center">
+                                <a href="#" class="btn btn-secundary ">Detalles</a>
+                                <a href="#" class="btn btn-primary">Postular</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+    {% else %}
+        <h1>No hay ofertas de asignaturas para el Semestre actual</h1>
+    {% endif %}
+
+</div>
+{% endblock %}
 
 </body>
