@@ -55,7 +55,7 @@ class NuevoCursoForm(forms.ModelForm):
         }
 
         widgets = {
-            'codigo': forms.NumberInput(attrs={'placeholder': 'Código'}),
-            'nombre': forms.TextInput(attrs={'placeholder': 'Nombre'}),
-            'descripcion': forms.Textarea(attrs={'placeholder': 'Descripción'}),
+            'codigo': forms.NumberInput(attrs={'placeholder': 'Código', 'class': 'form-control'}),
+            'nombre': forms.TextInput(attrs={'placeholder': 'Nombre', 'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={'placeholder': 'Descripción', 'class': 'form-control'}),
         }

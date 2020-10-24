@@ -1,8 +1,9 @@
 {% extends 'plataforma/dashboard.html' %}
 
 {% block content %}
-    <div class="jumbotron">
-        <form method="post">
+    <div class="jumbotron" style="background-color: white;">
+        <form method="post" class="col col-sm-5">
+            <h2>Nuevo curso</h2>
             {% csrf_token %}
             {% for field in form %}
                 {{ field.label }}:<br>
