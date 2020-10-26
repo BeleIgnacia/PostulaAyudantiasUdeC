@@ -3,42 +3,6 @@
 {% load static %}
 
 {% block content %}
-<div class="jumbotron" style="background-color: white;">
-
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <td>Código</td>
-            <td>Nombre</td>
-            <td>Profesor</td>
-            <td>Semestre</td>
-            <td>Requisitos</td>
-            <td>Horario</td>
-            <td>Puestos</td>
-        </tr>
-
-        </thead>
-        <tbody>
-        {% if object_list %}
-            {% for Ayudantia in object_list %}
-                <tr>
-                <td>{{ Ayudantia.curso.codigo }}</td>
-                <td>{{ Ayudantia.curso.nombre }}</td>
-                <td>{{ Ayudantia.curso.docente }}</td>
-                <td>{{ Ayudantia.semestre }}</td>
-                <td>{{ Ayudantia.requisito }}</td>
-                <td>{{ Ayudantia.horario }}</td>
-                <td>{{ Ayudantia.puestos }}</td>
-
-            {% endfor %}
-
-        {% else %}
-            <h1>No hay ofertas de asignaturas para el Semestre actual</h1>
-        {% endif %}
-        </tbody>
-    </table>
-
-
     {% if object_list %}
         <div class="card-deck">
             {% for Ayudantia in object_list %}
