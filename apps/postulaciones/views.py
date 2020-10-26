@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.http import HttpResponse , HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
@@ -11,16 +12,22 @@ from django import forms
 # Create your views here.
 
 
-class  despliega_ofertas_ayudantias(ListView):
+class  despliega_ofertas_ayudantias(LoginRequiredMixin, ListView):
+   login_url = '/iniciar/'
    model = Ayudantia
    template_name= 'plataforma/desplegar_ofertas_ayudantias.html'
 
 
-class NuevaAyudantia(CreateView):
+class NuevaAyudantia(UserPassesTestMixin, CreateView):
+    login_url = '/iniciar/' #Redirecciona en caso de no haber iniciado sesión
     model = Ayudantia
     form_class = RegistrarPostulacionAyudantia
     template_name = 'postulaciones/nueva_ayudantia.html'
     success_url = reverse_lazy('postulaciones:nueva_ayudantia')
+
+    #Comprueba que el usuario accediendo es docente
+    def test_func(self):
+        return self.request.session.get('es_docente')
 
     def get_context_data(self, **kwargs):
         context = super(NuevaAyudantia, self).get_context_data(**kwargs)

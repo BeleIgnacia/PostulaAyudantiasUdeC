@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
@@ -85,15 +86,20 @@ def cerrar_sesion(request):
     return HttpResponseRedirect(reverse('navegacion:inicio'))
 
 # Pantalla principal luego de inciar sesión
-class Dashboard(TemplateView):
+class Dashboard(LoginRequiredMixin, TemplateView):
+    login_url = '/iniciar/'
     template_name = 'plataforma/dashboard.html'
 
 
-class RegistrarDocente(CreateView):
+class RegistrarDocente(UserPassesTestMixin, CreateView):
+    login_url = '/iniciar/'
     model = Usuario
     form_class = RegistrarUsuarioForm
     template_name = 'plataforma/registrar_docente.html'
     success_url = reverse_lazy('plataforma:registrar_docente')
+
+    def test_func(self):
+        return self.request.session.get('es_administrador')
 
     def get_context_data(self, **kwargs):
         context = super(RegistrarDocente, self).get_context_data(**kwargs)
@@ -107,11 +113,15 @@ class RegistrarDocente(CreateView):
         return HttpResponseRedirect(reverse_lazy('plataforma:registrar_docente'))
 
 
-class NuevoCurso(CreateView):
+class NuevoCurso(UserPassesTestMixin, CreateView):
+    login_url = '/iniciar/'
     model = Curso
     form_class = NuevoCursoForm
     template_name = 'plataforma/nuevo_curso.html'
     success_url = reverse_lazy('plataforma:nuevo_curso')
+
+    def test_func(self):
+        return self.request.session.get('es_docente')
 
     def form_valid(self, form):
         instance = form.save(commit=False)
