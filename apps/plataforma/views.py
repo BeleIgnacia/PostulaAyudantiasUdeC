@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
@@ -78,6 +78,11 @@ def iniciar_sesion(request):
     # Despliega el template dentro del navegador
     return render(request, 'plataforma/login.html', context)
 
+def cerrar_sesion(request):
+    # Finalizamos la sesión
+    logout(request)
+    # Redireccionamos a la portada
+    return HttpResponseRedirect(reverse('navegacion:inicio'))
 
 # Pantalla principal luego de inciar sesión
 class Dashboard(TemplateView):

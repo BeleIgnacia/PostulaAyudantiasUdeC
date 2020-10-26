@@ -1,10 +1,14 @@
 from django.shortcuts import render
 
-from django.views.generic import TemplateView
+from django.views.generic import View, TemplateView
 
 
-class Inicio(TemplateView):
-    template_name = 'navegacion/inicio.html'
+class Inicio(View):
+    def get(self, request):
+        if request.user.is_authenticated:
+            return render(request, 'plataforma/dashboard.html')
+        else:
+            return render(request, 'navegacion/inicio.html')
 
 
 class Nosotros(TemplateView):
