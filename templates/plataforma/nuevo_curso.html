@@ -5,6 +5,15 @@
         <form method="post" class="col col-sm-5">
             <h2>Nuevo curso</h2>
             {% csrf_token %}
+            
+            {% if messages %}
+            <ul class="alert alert-danger">
+                {% for message in messages %}
+                    <strong{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</strong>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
             {% for field in form %}
                 {{ field.label }}:<br>
                 {{ field }}<br><br>

@@ -11,6 +11,15 @@
         <div class="jumbotron">
             <form method="post">
                {% csrf_token %} 
+
+               {% if messages %}
+               <ul class="alert alert-danger">
+                   {% for message in messages %}
+                       <strong{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</strong>
+                   {% endfor %}
+               </ul>
+               {% endif %}
+
                {% for field in form %}
                <a style="font-size: large;"> {{ field.label }}:<br> </a>
                 {{ field }}<br><br>

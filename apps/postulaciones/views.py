@@ -4,6 +4,7 @@ from django.http import HttpResponse , HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, ListView
+from django.contrib import messages
 
 from apps.postulaciones.forms import RegistrarPostulacionAyudantia
 from apps.plataforma.models import Curso, Usuario
@@ -41,5 +42,13 @@ class NuevaAyudantia(UserPassesTestMixin, CreateView):
     
     def form_valid(self, form):
         instance = form.save(commit=False)
+
+        cursos_ids = Ayudantia.objects.values_list('curso_id', flat=True)
+        cursos = Curso.objects.filter(id__in=cursos_ids)
+        for curso in cursos:
+            if instance.curso.codigo == curso.codigo:
+                messages.error(self.request, "Ya existe una ayudantía para este curso.")
+                return HttpResponseRedirect(self.request.path_info) 
+
         instance.save()
         return HttpResponseRedirect(reverse_lazy('postulaciones:nueva_ayudantia'))

@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, TemplateView
+from django.contrib import messages
 
 from apps.plataforma.forms import RegistrarUsuarioForm, NuevoCursoForm
 from apps.plataforma.models import Usuario, Curso
@@ -44,6 +45,13 @@ class RegistrarAlumno(CreateView):
         # Aquí pueden editar la instancia
         # En este caso usaremos el email como username igualmente
         instance.username = instance.email
+
+        emails = Usuario.objects.values_list('email', flat=True)
+        for email in emails:
+            if instance.email == email:
+                messages.error(self.request, "Ya existe un usuario con esta dirección de correo.")
+                return HttpResponseRedirect(self.request.path_info) 
+        
         # Se guarda la instancia en la BD
         instance.save()
         # Redirect
@@ -109,6 +117,13 @@ class RegistrarDocente(UserPassesTestMixin, CreateView):
         instance = form.save(commit=False)
         instance.username = instance.email
         instance.es_docente = True
+
+        emails = Usuario.objects.values_list('email', flat=True)
+        for email in emails:
+            if instance.email == email:
+                messages.error(self.request, "Ya existe un usuario con esta dirección de correo.")
+                return HttpResponseRedirect(self.request.path_info)
+
         instance.save()
         return HttpResponseRedirect(reverse_lazy('plataforma:registrar_docente'))
 
@@ -125,6 +140,13 @@ class NuevoCurso(UserPassesTestMixin, CreateView):
 
     def form_valid(self, form):
         instance = form.save(commit=False)
+
+        codigos = Curso.objects.values_list('codigo', flat=True)
+        for codigo in codigos:
+            if instance.codigo == codigo:
+                messages.error(self.request, "Ya existe este curso.")
+                return HttpResponseRedirect(self.request.path_info) 
+
         docente = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
         instance.docente = docente
         instance.save()
