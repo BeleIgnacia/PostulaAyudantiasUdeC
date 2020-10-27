@@ -1,19 +1,29 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
-    login
-    <form method="post">
-        {% csrf_token %}
-        <label>
-            Dirección de correo<br>
-            <input type="email" name="username">
-        </label>
-        <br>
-        <label>
-            Contraseña<br>
-            <input type="password" name="password">
-        </label>
-        <br>
-        <input class="btn btn-primary" type="submit" value="Iniciar sesión">
-    </form>
+    <div class="container-fluid">
+        <div class="container d-flex h-100">
+            <div class="row align-self-center w-100">
+                <div class="col-4 mx-auto">
+                    <div class="jumbotron text-center">
+                        <h1>Log in</h1> <br>
+                        <form class="justify-content-center" method="post">
+                            {% csrf_token %}
+                            <label>
+                                Dirección de correo<br>
+                                <input type="email" name="username">
+                            </label>
+                            <br>
+                            <label>
+                                Contraseña<br>
+                                <input type="password" name="password">
+                            </label>
+                            <br>
+                            <input class="btn btn-primary" type="submit" value="Iniciar sesión">
+                        </form>                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

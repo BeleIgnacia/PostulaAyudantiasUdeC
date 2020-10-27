@@ -1,23 +1,31 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
-    <div class="jumbotron">
-        <form method="post">
-            {% csrf_token %}
-            
-            {% if messages %}
-            <ul class="alert alert-danger">
-                {% for message in messages %}
-                    <strong{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</strong>
-                {% endfor %}
-            </ul>
-            {% endif %}
-
-            {% for field in form %}
-                {{ field.label }}:<br>
-                {{ field }}<br><br>
-            {% endfor %}
-            <input class="btn btn-primary" value="Registrarse" type="submit">
-        </form>
+    <div class="container-fluid">
+        <div class="container d-flex h-100">
+            <div class="row align-self-center w-100">
+                <div class="col-4 mx-auto">
+                    <div class="jumbotron text-center">
+                        <form method="post">
+                            {% csrf_token %}
+                            
+                            {% if messages %}
+                            <ul class="alert alert-danger">
+                                {% for message in messages %}
+                                    <strong{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</strong>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                
+                            {% for field in form %}
+                                {{ field.label }}:<br>
+                                {{ field }}<br><br>
+                            {% endfor %}
+                            <input class="btn btn-primary" value="Registrarse" type="submit">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
