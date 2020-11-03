@@ -5,17 +5,20 @@
 {% block content %}
     {% if object_list %}
         <div class="card-deck">
-            {% for Ayudantia in object_list %}
+            {% for ayudantia in object_list %}
                 <div class="card-group">
                     <div class="card " style="width: 18rem;">
                         <div class="card-body">
-                            <h5 class="card-title">{{ Ayudantia.curso.nombre }}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Código:{{ Ayudantia.curso.codigo }}</h6>
-                            <p class="card-text">{{ Ayudantia.semestre }}</p>
-                            <p class="card-text">{{ Ayudantia.descripcion }}</p>
+                            <h5 class="card-title">{{ ayudantia.curso.nombre }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Código:{{ ayudantia.curso.codigo }}</h6>
+                            <p class="card-text">{{ ayudantia.semestre }}</p>
+                            <p class="card-text">{{ ayudantia.descripcion }}</p>
                             <div class="text-center">
                                 <a href="#" class="btn btn-secundary ">Detalles</a>
-                                <a href="#" class="btn btn-primary">Postular</a>
+                                <!-- Solo a alumno se le permite postular -->
+                                {% if not request.session.es_docente and not request.session.es_administrador %}
+                                    <a href="#" class="btn btn-primary">Postular</a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
