@@ -73,8 +73,8 @@ class PostulacionesRealizadas(ListView):
     model = Postulacion
     template_name = 'postulaciones/postulaciones_realizadas.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(PostulacionesRealizadas, self).get_context_data(**kwargs)
-        # TODO: Aquí falta filtrar
+    # Filtra las postulaciones sobre mis ayudantias
+    def get_queryset(self):
         docente = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
-        return context
+        ayudantias = Ayudantia.objects.filter(curso__docente=docente)
+        return Postulacion.objects.filter(ayudantia__in=ayudantias)

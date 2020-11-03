@@ -3,11 +3,35 @@
 {% load static %}
 
 {% block content %}
-    {% if object_list %}
-        {% for postulacion in object_list %}
-            {{ postulacion }}
-        {% endfor %}
-    {% else %}
-        No existen postulaciones ingresadas
-    {% endif %}
+    <div class="jumbotron" style="background-color: white;">
+        {% if object_list %}
+            {% for postulacion in object_list %}
+                <div class="card border-primary mb-3">
+                    <div class="card-header"> Postulación a {{ postulacion.ayudantia.curso }}</div>
+                    <div class="card-body row">
+                        <div class="col col-sm-9">
+                            <h4 class="card-title">Postulación de {{ postulacion.alumno }} a {{ postulacion.ayudantia.curso }}</h4>
+                            <p class="card-text">Realizada con fecha {{ postulacion.fecha }} y hora {{ postulacion.hora }}</p>
+                            <p class="card-text">Puestos disponibles: {{ postulacion.ayudantia.puestos }}</p>
+                        </div>
+                        <div class="col col-sm-3">
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col col-sm-6">
+                                        <input type="submit" class="btn btn-primary btn-block" value="Aceptar">
+                                    </div>
+                                    <div class="col col-sm-6">
+                                        <input type="submit" class="btn btn-danger btn-block" value="Rechazar">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            No existen postulaciones ingresadas
+        {% endif %}
+    </div>
 {% endblock %}
