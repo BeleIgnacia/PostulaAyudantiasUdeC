@@ -1,0 +1,13 @@
+{% extends 'plataforma/dashboard.html' %}
+
+{% load static %}
+
+{% block content %}
+    {% if object_list %}
+        {% for ayudantia in object_list %}
+            {{ ayudantia }}
+        {% endfor %}
+    {% else %}
+        No existen ayudantias ingresadas
+    {% endif %}
+{% endblock %}
