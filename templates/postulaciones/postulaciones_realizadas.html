@@ -4,10 +4,10 @@
 
 {% block content %}
     {% if object_list %}
-        {% for ayudantia in object_list %}
-            {{ ayudantia }}
+        {% for postulacion in object_list %}
+            {{ postulacion }}
         {% endfor %}
     {% else %}
-        No existen ayudantias ingresadas
+        No existen postulaciones ingresadas
     {% endif %}
 {% endblock %}

@@ -40,22 +40,23 @@ class NuevaAyudantia(UserPassesTestMixin, CreateView):
 
     def form_valid(self, form):
         instance = form.save(commit=False)
-
         cursos_ids = Ayudantia.objects.values_list('curso_id', flat=True)
         cursos = Curso.objects.filter(id__in=cursos_ids)
         for curso in cursos:
             if instance.curso.codigo == curso.codigo:
                 messages.error(self.request, "Ya existe una ayudantía para este curso.")
                 return HttpResponseRedirect(self.request.path_info)
-
         instance.save()
         return HttpResponseRedirect(reverse_lazy('postulaciones:nueva_ayudantia'))
 
 
-class MisAyudantias(ListView):
-    model = Ayudantia
-    template_name = 'postulaciones/mis_ayudantias.html'
+# Postulaciones realizadas sobre mis ayudantias ofrecidas
+class PostulacionesRealizadas(ListView):
+    model = Postulacion
+    template_name = 'postulaciones/postulaciones_realizadas.html'
 
     def get_context_data(self, **kwargs):
-        context = super(MisAyudantias, self).get_context_data(**kwargs)
+        context = super(PostulacionesRealizadas, self).get_context_data(**kwargs)
+        # TODO: Aquí falta filtrar
+        docente = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
         return context
