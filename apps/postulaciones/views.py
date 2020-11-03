@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, ListView
 from django.contrib import messages
+from django.views.generic.detail import SingleObjectMixin
 
 from apps.postulaciones.forms import RegistrarPostulacionAyudantia
 from apps.plataforma.models import Curso, Usuario
@@ -16,6 +17,23 @@ class OfertasAyudantias(LoginRequiredMixin, ListView):
     login_url = '/iniciar/'
     model = Ayudantia
     template_name = 'plataforma/desplegar_ofertas_ayudantias.html'
+
+    # Filtra las ayudantias a las cuales ya he postulado
+    def get_queryset(self):
+        alumno = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
+        postulaciones = Postulacion.objects.filter(alumno=alumno)
+        return Ayudantia.objects.exclude(postulacion__in=postulaciones)
+
+    # Crea una postualción sobre la ayudantía escogida
+    def post(self, request, *args, **kwargs):
+        id_ayudantia = request.POST.get('id_ayudantia')
+        ayudantia = Ayudantia.objects.get(pk=id_ayudantia)
+        alumno = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
+        Postulacion.objects.create(
+            alumno=alumno,
+            ayudantia=ayudantia
+        )
+        return HttpResponseRedirect(reverse_lazy('postulaciones:listar_ofertas'))
 
 
 class NuevaAyudantia(UserPassesTestMixin, CreateView):

@@ -15,9 +15,13 @@
                             <p class="card-text">{{ ayudantia.descripcion }}</p>
                             <div class="text-center">
                                 <a href="#" class="btn btn-secundary ">Detalles</a>
-                                <!-- Solo a alumno se le permite postular -->
                                 {% if not request.session.es_docente and not request.session.es_administrador %}
-                                    <a href="#" class="btn btn-primary">Postular</a>
+                                    <!-- Solo a alumno se le permite postular -->
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" value="{{ ayudantia.id }}" name="id_ayudantia">
+                                        <input type="submit" class="btn btn-primary" value="Postular">
+                                    </form>
                                 {% endif %}
                             </div>
                         </div>
