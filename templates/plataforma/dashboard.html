@@ -28,11 +28,18 @@
                 {% else %}
                     <!--Navbar de alumno-->
                 {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/postulaciones/ofertas_ayudantias/">Ofertas de ayudantias</a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/postulaciones/ofertas_ayudantias/">Ofertas de ayudantias</a>
+                </li>
             </ul>
-            <a href="{% url 'cerrar_sesion' %}" type="submit" class="btn btn-secondary">Cerrar sesión</a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/plataforma/perfil/{{ request.session.pk_usuario }}">Perfil</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'cerrar_sesion' %}" type="submit" class="btn btn-secondary">Cerrar sesión</a>
+                </li>
+            </ul>
         </div>
     </nav>
 {% endblock %}

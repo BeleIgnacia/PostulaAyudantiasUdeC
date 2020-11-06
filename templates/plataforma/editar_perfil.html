@@ -1,0 +1,62 @@
+{% extends 'plataforma/dashboard.html' %}
+
+{% block content %}
+    <div class="jumbotron" style="background-color: white;">
+        {% if mi_perfil %}
+            <div class="col">
+                <div class="row">
+                    <div class="col col-sm-2 text-right">
+                        <h4 style="margin-top: 10px">
+                            Correo:
+                        </h4>
+                    </div>
+                    <div class="col col-sm-6">
+                        <h4 style="margin-top: 10px">{{ request.session.email }}</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-sm-2 text-right">
+                        <h4 style="margin-top: 10px">
+                            Nombre:
+                        </h4>
+                    </div>
+                    <div class="col col-sm-6">
+                        <h4 style="margin-top: 10px">{{ request.session.first_name }}</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-sm-2 text-right">
+                        <h4 style="margin-top: 10px">
+                            Apellido:
+                        </h4>
+                    </div>
+                    <div class="col col-sm-6">
+                        <h4 style="margin-top: 10px">{{ request.session.last_name }}</h4>
+                    </div>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="row">
+                            <div class="col col-sm-2 text-right">
+                                <h4 style="margin-top: 10px">{{ field.label }}:</h4>
+                            </div>
+                            <div class="col col-sm-6">
+                                {{ field }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="row">
+                        <div class="col col-sm-6"></div>
+                        <div class="col col-sm-2">
+                            <br>
+                            <input type="submit" value="Guardar" class="btn btn-success btn-block">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        {% else %}
+            <h2>Entrada invalida, acceso no autorizado.</h2>
+        {% endif %}
+    </div>
+{% endblock %}
