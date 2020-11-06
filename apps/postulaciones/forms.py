@@ -1,6 +1,6 @@
 from django import forms
 from apps.postulaciones.models import Ayudantia,Postulacion
-from apps.plataforma.models import Usuario, Curso
+from apps.postulaciones.models import Usuario
 
 class RegistrarPostulacionAyudantia(forms.ModelForm):
     class Meta:
@@ -30,7 +30,7 @@ class RegistrarPostulacionAyudantia(forms.ModelForm):
         }
 
 
-class ResgistrarPostulacionAlumno(forms.Modelform):
+class ResgistrarPostulacionAlumno():
     class Meta:
         model = Usuario
         fields = [
@@ -54,12 +54,12 @@ class ResgistrarPostulacionAlumno(forms.Modelform):
             'nota':'Nota',
         }
         widgets = {
-            'nombre':forms.TextInput(attrs={'placeholder': 'Su nombre', 'class': 'form-control'}),
-            'apellido1':forms.TextInput(attrs={'placeholder': 'Apellido Paterno', 'class': 'form-control'}),
-            'apellido2':forms.TextInput(attrs={'placeholder': 'Apellido Materno', 'class': 'form-control'}),
-            'matricula':forms.TextInput(attrs={'placeholder': 'Ingrese su matrícula', 'class': 'form-control'}),
-            'carrera':forms.TextInput(attrs={'placeholder': '', 'class': 'form-control'}),
-            'semestrecarrera':forms.TextInput(attrs={'placeholder': 'Ej: 2020-1', 'class': 'form-control'}),
-            'semestreramo':forms.TextInput(attrs={'placeholder': 'Ej: 2019-2', 'class': 'form-control'}),
-            'nota':forms.TextInput(attrs={'placeholder': 'Promedio con el que aprobó', 'class': 'form-control'}),
+            'nombre':forms.TextInput(attrs={'placeholder': 'Su nombre'}),
+            'apellido1':forms.TextInput(attrs={'placeholder': 'Apellido Paterno'}),
+            'apellido2':forms.TextInput(attrs={'placeholder': 'Apellido Materno'}),
+            'matricula':forms.TextInput(attrs={'placeholder': 'Ingrese su matrícula'}),
+            'carrera':forms.TextInput(attrs={'placeholder': 'Ej: Ingernierìa Civil Informàtica'}),
+            'semestrecarrera':forms.TextInput(attrs={'placeholder': 'Ej: 2020-1'}),
+            'semestreramo':forms.TextInput(attrs={'placeholder': 'Ej: 2019-2'}),
+            'nota':forms.TextInput(attrs={'placeholder': 'Promedio con el que aprobó'}),
         }
