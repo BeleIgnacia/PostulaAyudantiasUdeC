@@ -1,9 +1,21 @@
+<!DOCTYPE html>
+
 {% extends 'plataforma/dashboard.html' %}
 
-{% load static %}
+ {% block content %}
+ <html>
+<head>
 
-{% block content %}
-    {% if object_list %}
+  <title>Bootstrap Example</title>
+  {% load bootstrap4 %}
+  {% load static %}
+  
+</head>
+
+
+<body>
+
+ {% if object_list %}
         <div class="jumbotron" style="background-color: white;">
         <div class="card-deck">
             {% for ayudantia in object_list %}
@@ -12,10 +24,10 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ ayudantia.curso.nombre }}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">Código:{{ ayudantia.curso.codigo }}</h6>
-                            <p class="card-text">{{ ayudantia.semestre }}</p>
+                            <p class="card-text">Docente: {{ ayudantia.curso.docente }}</p>
                             <p class="card-text">{{ ayudantia.descripcion }}</p>
+                            <p class="card-text">{{ ayudantia.horario}}</p>
                             <div class="text-center">
-                                <a href="#" class="btn btn-secundary ">Detalles</a>
                                 {% if not request.session.es_docente and not request.session.es_administrador %}
                                     <!-- Solo a alumno se le permite postular -->
                                     <form method="post">
@@ -29,10 +41,16 @@
                     </div>
                 </div>
 
-            {% endfor %}
-        </div>
-    {% else %}
+{% endfor %}
+ </div>
+{% else %}
         <h1>No hay ofertas de asignaturas para el Semestre actual</h1>
     {% endif %}
-</div>
+
+
+
+{% bootstrap_javascript jquery='full'%}
+
+</body>
+
 {% endblock %}

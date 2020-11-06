@@ -30,35 +30,20 @@ class RegistrarPostulacionAyudantia(forms.ModelForm):
         }
 
 
-class ResgistrarPostulacionAlumno():
+class ResgistrarPostulacionAlumno(forms.ModelForm):
     class Meta:
-        model = Usuario
+        model = Postulacion
         fields = [
-            'nombre',
-            'apellido1',
-            'apellido2',
-            'matricula',
-            'carrera',
             'semestrecarrera',
             'semestreramo',
             'nota',          
         ]
         labels = {
-            'nombre':'Nombre',
-            'apellido1':'Apellido Paterno',
-            'apellido2':'Apellido Materno',
-            'matricula':'Matrícula',
-            'carrera':'Carrera',
             'semestrecarrera':'Semestre actual',
             'semestreramo':'Semestre de rendición',
             'nota':'Nota',
         }
         widgets = {
-            'nombre':forms.TextInput(attrs={'placeholder': 'Su nombre'}),
-            'apellido1':forms.TextInput(attrs={'placeholder': 'Apellido Paterno'}),
-            'apellido2':forms.TextInput(attrs={'placeholder': 'Apellido Materno'}),
-            'matricula':forms.TextInput(attrs={'placeholder': 'Ingrese su matrícula'}),
-            'carrera':forms.TextInput(attrs={'placeholder': 'Ej: Ingernierìa Civil Informàtica'}),
             'semestrecarrera':forms.TextInput(attrs={'placeholder': 'Ej: 2020-1'}),
             'semestreramo':forms.TextInput(attrs={'placeholder': 'Ej: 2019-2'}),
             'nota':forms.TextInput(attrs={'placeholder': 'Promedio con el que aprobó'}),
