@@ -1,4 +1,6 @@
 {% extends 'base/base.html' %}
+{% load static %}
+
 
 
 {% block header %}
@@ -23,7 +25,7 @@
                 {% elif request.session.es_administrador is True %}
                     <!--Navbar de administrador-->
                     <li class="nav-item">
-                        <a class="nav-link" href="/plataforma/nuevo_docente/" style="font-size: large;"><b>Nuevo Docentes</b></a>
+                        <a class="nav-link" href="/plataforma/nuevo_docente/">Nuevo Docente</a>
                     </li>
                 {% else %}
                     <!--Navbar de alumno-->
@@ -32,12 +34,14 @@
                         <a class="nav-link" href="/postulaciones/ofertas_ayudantias/">Ofertas de ayudantias</a>
                     </li>
             </ul>
-            <a href="{% url 'cerrar_sesion' %}" type="submit" class="btn btn-secondary">Cerrar sesión</a>
+            <a href="{% url 'cerrar_sesion' %}" type="submit" ><button style="font-size:24px"><i class="fa fa-sign-out"></i></button></a>
         </div>
     </nav>
 {% endblock %}
 
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
+<body>
     <div class="jumbotron">
         {% if request.session.es_administador is True %}
             <h2>Bienvenido {{ request.session.first_name }} {{ request.session.last_name }} al panel de administración.</h2>
@@ -47,4 +51,5 @@
             <h2>Bienvenido {{ request.session.first_name }} {{ request.session.last_name }} al panel de postulación.</h2>
         {% endif %}
     </div>
+</body>
 {% endblock %}
