@@ -32,6 +32,7 @@
                         <a class="nav-link" href="/postulaciones/ofertas_ayudantias/">Ofertas de ayudantias</a>
                     </li>
             </ul>
+            <a class="nav-link text-white" href="/plataforma/perfil/{{ request.session.pk_usuario }}/">Mi perfil</a>
             <a href="{% url 'cerrar_sesion' %}" type="submit" class="btn btn-secondary">Cerrar sesión</a>
         </div>
     </nav>
