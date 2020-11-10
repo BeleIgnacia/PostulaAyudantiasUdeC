@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, UpdateView
 from django.contrib import messages
 from django.views.generic.detail import SingleObjectMixin
 
@@ -78,3 +78,21 @@ class PostulacionesRealizadas(ListView):
         docente = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
         ayudantias = Ayudantia.objects.filter(curso__docente=docente)
         return Postulacion.objects.filter(ayudantia__in=ayudantias)
+
+    def post(self, request, *args, **kwargs):
+        id_postulacion = request.POST.get('id_postulacion')
+        postulacion = Postulacion.objects.filter(pk=id_postulacion)
+        ayudantia = postulacion[0].ayudantia
+
+        if(request.POST.get('data-accept')=="True" ):
+            postulacion.update(
+                estado = True
+            )
+
+            Ayudantia.objects.filter(pk=ayudantia.id).update(
+                puestos = ayudantia.puestos - 1
+            )
+        else:
+            postulacion.delete()
+        
+        return HttpResponseRedirect(reverse('postulaciones:mis_ayudantias'))
