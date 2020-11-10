@@ -30,21 +30,18 @@ class RegistrarPostulacionAyudantia(forms.ModelForm):
         }
 
 
-class ResgistrarPostulacionAlumno(forms.ModelForm):
+class RegistrarPostulacionAlumno(forms.ModelForm):
     class Meta:
         model = Postulacion
         fields = [
-            'semestrecarrera',
             'semestreramo',
             'nota',          
         ]
         labels = {
-            'semestrecarrera':'Semestre actual',
             'semestreramo':'Semestre de rendición',
             'nota':'Nota',
         }
         widgets = {
-            'semestrecarrera':forms.TextInput(attrs={'placeholder': 'Ej: 2020-1'}),
             'semestreramo':forms.TextInput(attrs={'placeholder': 'Ej: 2019-2'}),
             'nota':forms.TextInput(attrs={'placeholder': 'Promedio con el que aprobó'}),
-        }
+        }   

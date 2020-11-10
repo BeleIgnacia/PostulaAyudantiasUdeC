@@ -30,11 +30,10 @@
                             <div class="text-center">
                                 {% if not request.session.es_docente and not request.session.es_administrador %}
                                     <!-- Solo a alumno se le permite postular -->
-                                    <form method="post">
-                                        {% csrf_token %}
-                                        <input type="hidden" value="{{ ayudantia.id }}" name="id_ayudantia">
-                                        <input type="submit" class="btn btn-primary" value="Postular">
-                                    </form>
+                                        
+                                         
+                                        <a  type="button" class="btn btn-primary" data-toggle="modal" data-target="#ingresarDatos" 
+                                            data-cursomodal= '{ "id":"{{ ayudantia.id }}", "codigo":"{{ ayudantia.curso.codigo }}" ,"nombre_curso":"{{ ayudantia.curso.nombre }}" }'   >Postular</a>
                                 {% endif %}
                             </div>
                         </div>
@@ -48,9 +47,72 @@
     {% endif %}
 
 
+<div class="modal fade" id="ingresarDatos" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ingrese Datos  </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="Semestre" class="col-form-label">Semestre donde aprobó la asignatura:</label>
+            <input type="text" class="form-control" placeholder="Ej: 2019-2" id="Semestre" name="Semestre"></input>
+
+            <label for="Nota" class="col-form-label"  >Nota:</label>
+            <input class="form-control" placeholder="Ej: 4.3" id="Nota" ></input>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+       <form id="form_accept"  method="post">
+          {% csrf_token %}
+          <div>
+        <input id = "id_ayudantia" type="hidden" value=' ' name="id_ayudantia">
+        <input id = "semestre" type="hidden" value= " " name="semestre">
+        <input id = "nota" type="hidden" value=" " name="nota">
+
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <input id="Boton_enviar" type="submit" type="button" class="btn btn-primary" value ="Enviar"
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% bootstrap_javascript jquery='full'%}
 
 </body>
+
+{% endblock %}
+
+{% block extrajs %}
+<script>
+
+$('#ingresarDatos').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var recipient = button.data('cursomodal') // Extract info from data-* attributes
+  
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this)
+  modal.find('.modal-title ').text('Postular a ' + recipient.nombre_curso + "(" +recipient.codigo + ")")
+
+  $( "#Boton_enviar" ).click(function(event) {
+    
+            $("#id_ayudantia").val (recipient.id) 
+            $("#semestre").val($("#Semestre") .val())
+            $("#nota").val($("#Nota") .val())
+
+      $( "#form_accept" ).submit(function() {
+             
+        })
+        })
+});
+</script>
 
 {% endblock %}
