@@ -59,3 +59,26 @@ class NuevoCursoForm(forms.ModelForm):
             'nombre': forms.TextInput(attrs={'placeholder': 'Nombre', 'class': 'form-control'}),
             'descripcion': forms.Textarea(attrs={'placeholder': 'Descripción', 'class': 'form-control'}),
         }
+
+
+class ActualizarPerfilForm(forms.ModelForm):
+    class Meta:
+        model = Usuario
+
+        fields = [
+            'intereses',
+            'etapa_carrera',
+            'area',
+        ]
+
+        labels = {
+            'intereses': 'Intereses',
+            'etapa_carrera': 'Año de carrera',
+            'area': 'Area actual',
+        }
+
+        widgets = {
+            'intereses': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+            'etapa_carrera': forms.Select(attrs={'class': 'form-control'}),
+            'area': forms.Select(attrs={'class': 'form-control'}),
+        }

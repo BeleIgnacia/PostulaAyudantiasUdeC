@@ -1,0 +1,23 @@
+h2{
+    align-self: center;
+    color: black;
+    font-size: 36px;
+
+}
+
+.jumbotron {
+    background-color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    
+}
+
+body {
+  
+    background-image: url(https://www.radioudec.cl/wp-content/uploads/2020/04/udeccccccccccc-scaled.jpg);
+    background-repeat: no-repeat;
+   
+    background-size: 100%; 
+    align-self: center;
+    margin: auto;
+  
+}

@@ -3,10 +3,10 @@ from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, TemplateView, UpdateView
 from django.contrib import messages
 
-from apps.plataforma.forms import RegistrarUsuarioForm, NuevoCursoForm
+from apps.plataforma.forms import RegistrarUsuarioForm, NuevoCursoForm, ActualizarPerfilForm
 from apps.plataforma.models import Usuario, Curso
 
 
@@ -22,10 +22,6 @@ class RegistrarAlumno(CreateView):
     # La dirección en caso de que el formulario sea correcto
     # aquí se utiliza namespace:name
     success_url = reverse_lazy('iniciar_sesion')
-
-    ''' Las dos funciones de aquí abajo se repiten por lo regular
-    en todas las views. Existen otras maneras de manjar los eventos
-    con otras funciones pero estas por lo regular son suficientes '''
 
     # Función que se ejecuta antes de entregar el template
     def get_context_data(self, **kwargs):
@@ -50,9 +46,9 @@ class RegistrarAlumno(CreateView):
         for email in emails:
             if instance.email == email:
                 messages.error(self.request, "Ya existe un usuario con esta dirección de correo.")
-                return HttpResponseRedirect(self.request.path_info) 
-        
-        # Se guarda la instancia en la BD
+                return HttpResponseRedirect(self.request.path_info)
+
+                # Se guarda la instancia en la BD
         instance.save()
         # Redirect
         return HttpResponseRedirect(reverse_lazy('iniciar_sesion'))
@@ -78,6 +74,7 @@ def iniciar_sesion(request):
             request.session['es_administrador'] = usuario.es_administrador
             request.session['first_name'] = usuario.first_name
             request.session['last_name'] = usuario.last_name
+            request.session['email'] = usuario.email
             # Redirige
             return HttpResponseRedirect(reverse('plataforma:dashboard'))
         pass
@@ -87,11 +84,13 @@ def iniciar_sesion(request):
     # Despliega el template dentro del navegador
     return render(request, 'plataforma/login.html', context)
 
+
 def cerrar_sesion(request):
     # Finalizamos la sesión
     logout(request)
     # Redireccionamos a la portada
     return HttpResponseRedirect(reverse('navegacion:inicio'))
+
 
 # Pantalla principal luego de inciar sesión
 class Dashboard(LoginRequiredMixin, TemplateView):
@@ -145,10 +144,29 @@ class NuevoCurso(UserPassesTestMixin, CreateView):
         for codigo in codigos:
             if instance.codigo == codigo:
                 messages.error(self.request, "Ya existe este curso.")
-                return HttpResponseRedirect(self.request.path_info) 
+                return HttpResponseRedirect(self.request.path_info)
 
         docente = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
         instance.docente = docente
         instance.save()
         return HttpResponseRedirect(reverse_lazy('plataforma:nuevo_curso'))
 
+
+# Editar perfil
+class ActualizarPerfil(LoginRequiredMixin, UpdateView):
+    login_url = '/iniciar/'
+    model = Usuario
+    form_class = ActualizarPerfilForm
+    template_name = 'plataforma/editar_perfil.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ActualizarPerfil, self).get_context_data()
+        # Determina si el perfil ingresado por pk es mio
+        context['mi_perfil'] = False
+        path = self.request.path_info.split("/")
+        if self.request.session.get('pk_usuario', '') == int(path[-2]):
+            context['mi_perfil'] = True
+        return context
+
+    def get_success_url(self):
+        return reverse('plataforma:perfil', kwargs={'pk': self.object.pk})
