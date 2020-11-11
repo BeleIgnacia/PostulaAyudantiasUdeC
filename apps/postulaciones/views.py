@@ -7,7 +7,7 @@ from django.views.generic import CreateView, ListView, UpdateView
 from django.contrib import messages
 from django.views.generic.detail import SingleObjectMixin
 
-from apps.postulaciones.forms import RegistrarPostulacionAyudantia
+from apps.postulaciones.forms import RegistrarPostulacionAyudantia,RegistrarPostulacionAlumno
 from apps.plataforma.models import Curso, Usuario
 from apps.postulaciones.models import Ayudantia, Postulacion
 from django import forms
@@ -15,7 +15,8 @@ from django import forms
 
 class OfertasAyudantias(LoginRequiredMixin, ListView):
     login_url = '/iniciar/'
-    model = Ayudantia
+    model = Postulacion
+    form_class = RegistrarPostulacionAlumno
     template_name = 'plataforma/desplegar_ofertas_ayudantias.html'
 
     # Filtra las ayudantias a las cuales ya he postulado
@@ -26,35 +27,34 @@ class OfertasAyudantias(LoginRequiredMixin, ListView):
 
    
         return HttpResponseRedirect(reverse_lazy('postulaciones:listar_ofertas'))
-
-class NuevaPostulacion(UserPassesTestMixin, CreateView):
-    login_url = '/iniciar/'  # Redirecciona en caso de no haber iniciado sesión
-    model = Ayudantia
-    form_class = RegistrarPostulacionAyudantia
-    template_name = 'postulaciones/nueva_ayudantia.html'
-    success_url = reverse_lazy('postulaciones:nueva_ayudantia')
-
-    def test_func(self):
-        return not(self.request.session.get('es_docente'))
     
-    # Crea una postualción sobre la ayudantía escogida
     def post(self, request, *args, **kwargs):
         id_ayudantia = request.POST.get('id_ayudantia')
+        semestreramo = request.POST.get('semestre')
+        nota = request.POST.get('nota')
         ayudantia = Ayudantia.objects.get(pk=id_ayudantia)
         alumno = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
         Postulacion.objects.create(
             alumno=alumno,
-            ayudantia=ayudantia
+            ayudantia=ayudantia,
+            semestreramo=semestreramo,
+            nota = nota
         )
+        return HttpResponseRedirect(reverse_lazy('postulaciones:listar_ofertas'))
 
-    def get_context_data(self, **kwargs):
-        context = super(NuevaPostulacion, self).get_context_data(**kwargs)
-        alumno = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
+class NuevaPostulacion(UserPassesTestMixin, CreateView):
+    login_url = '/iniciar/'  # Redirecciona en caso de no haber iniciado sesión
+    model = Postulacion
+    form_class = RegistrarPostulacionAlumno
+    template_name = 'postulaciones/generar_postulacion.html'
+    success_url = reverse_lazy('postulaciones:generar_postulacion')
 
-        context['form'].fields['Postulacion'] = forms.ModelChoiceField(queryset=cursos, empty_label="Seleccione curso", widget=forms.Select(attrs={'class': 'form-control'}))
-        if 'form' not in context:
-            context['form'] = self.form_class(self.request.GET)
-        return context
+    def test_func(self):
+        return not(self.request.session.get('es_docente'))
+    
+      
+      # Crea una postualción sobre la ayudantía escogida
+    
     
     
 
