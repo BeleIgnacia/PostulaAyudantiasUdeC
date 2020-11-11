@@ -1,6 +1,5 @@
 {% extends 'base/base.html' %}
 
-
 {% block header %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-gradient-primary">
         <a class="navbar-brand" href="/plataforma/" style="font-size: large;"><b>Inicio</b></a>
@@ -11,26 +10,29 @@
             <ul class="navbar-nav mr-auto">
                 {% if request.session.es_docente is True %}
                     <!--Navbar de docente-->
-                    <li class="nav-item">
-                        <a class="nav-link" href="/plataforma/nuevo_curso/">Nuevo Curso</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/postulaciones/nueva_ayudantia/">Nueva ayudantía</a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="/postulaciones/mis_ayudantias/">Postulaciones a mis ayudantias</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Docente</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/plataforma/nuevo_curso/">Nuevo Curso</a>
+                            <a class="dropdown-item" href="/postulaciones/nueva_ayudantia/">Nueva ayudantía</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/postulaciones/mis_ayudantias/">Postulaciones a mis ayudantias</a>
+                        </div>
                     </li>
                 {% elif request.session.es_administrador is True %}
                     <!--Navbar de administrador-->
-                    <li class="nav-item">
-                        <a class="nav-link" href="/plataforma/nuevo_docente/" style="font-size: large;"><b>Nuevo Docentes</b></a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administrador</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/plataforma/nuevo_docente/">Nuevo Docente</a>
+                        </div>
                     </li>
                 {% else %}
                     <!--Navbar de alumno-->
                 {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/postulaciones/ofertas_ayudantias/">Ofertas de ayudantias</a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/postulaciones/ofertas_ayudantias/">Ofertas de ayudantias</a>
+                </li>
             </ul>
             <a class="nav-link text-white" href="/plataforma/perfil/{{ request.session.pk_usuario }}/">Mi perfil</a>
             <a href="{% url 'cerrar_sesion' %}" type="submit" class="btn btn-secondary">Cerrar sesión</a>

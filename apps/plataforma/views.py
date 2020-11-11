@@ -124,7 +124,7 @@ class RegistrarDocente(UserPassesTestMixin, CreateView):
                 return HttpResponseRedirect(self.request.path_info)
 
         instance.save()
-        return HttpResponseRedirect(reverse_lazy('plataforma:registrar_docente'))
+        return HttpResponseRedirect(reverse_lazy('plataforma:dashboard'))
 
 
 class NuevoCurso(UserPassesTestMixin, CreateView):
