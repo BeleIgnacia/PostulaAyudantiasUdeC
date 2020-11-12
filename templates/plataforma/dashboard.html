@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
 {% block header %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-gradient-primary">
@@ -41,6 +42,7 @@
 {% endblock %}
 
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
     <div class="jumbotron">
         {% if request.session.es_administador is True %}
             <h2>Bienvenido {{ request.session.first_name }} {{ request.session.last_name }} al panel de administración.</h2>
