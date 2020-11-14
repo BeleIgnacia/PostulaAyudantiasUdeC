@@ -24,9 +24,6 @@ class OfertasAyudantias(LoginRequiredMixin, ListView):
         alumno = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
         postulaciones = Postulacion.objects.filter(alumno=alumno)
         return Ayudantia.objects.exclude(postulacion__in=postulaciones)
-
-   
-        return HttpResponseRedirect(reverse_lazy('postulaciones:listar_ofertas'))
     
     def post(self, request, *args, **kwargs):
         id_ayudantia = request.POST.get('id_ayudantia')
