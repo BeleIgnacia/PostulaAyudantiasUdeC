@@ -1,30 +1,21 @@
 {% extends 'plataforma/dashboard.html' %}
 {% load static %}
 
-{% block header %}
-{% endblock %}
-
 {% block content %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/registar_docente.css' %}">
-    <body>
-    <div class="jumbotron">
-        <form method="post">
-            {% csrf_token %}
+    <form method="post">
+        {% csrf_token %}
+        {% if messages %}
+            <ul class="alert alert-danger">
+                {% for message in messages %}
+                    <strong{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</strong>
+                {% endfor %}
+            </ul>
+        {% endif %}
 
-            {% if messages %}
-                <ul class="alert alert-danger">
-                    {% for message in messages %}
-                        <strong{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</strong>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-
-            {% for field in form %}
-                <a style="font-size: large;"> {{ field.label }}:<br> </a>
-                {{ field }}<br><br>
-            {% endfor %}
-            <input class="btn btn-primary" type="submit" value="Registrar docente">
-        </form>
-    </div>
-    </body>
+        {% for field in form %}
+            {{ field.label }}<br>
+            {{ field }}<br><br>
+        {% endfor %}
+        <input class="btn btn-primary" type="submit" value="Registrar docente">
+    </form>
 {% endblock %}

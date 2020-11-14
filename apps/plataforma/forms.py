@@ -30,11 +30,11 @@ class RegistrarUsuarioForm(UserCreationForm):
         }
         # widgets definen la entrada que se representa en el form
         widgets = {
-            'email': forms.EmailInput(attrs={'placeholder': 'Dirección de correo'}),
-            'first_name': forms.TextInput(attrs={'placeholder': 'Nombre'}),
-            'last_name': forms.TextInput(attrs={'placeholder': 'Apellido'}),
-            'password1': forms.PasswordInput(attrs={'placeholder': 'Contraseña'}),
-            'password2': forms.PasswordInput(attrs={'placeholder': 'Contraseña'}),
+            'email': forms.EmailInput(attrs={'placeholder': 'Dirección de correo', 'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'placeholder': 'Nombre', 'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'placeholder': 'Apellido', 'class': 'form-control'}),
+            'password1': forms.PasswordInput(attrs={'placeholder': 'Contraseña', 'class': 'form-control'}),
+            'password2': forms.PasswordInput(attrs={'placeholder': 'Contraseña', 'class': 'form-control'}),
         }
 
 
