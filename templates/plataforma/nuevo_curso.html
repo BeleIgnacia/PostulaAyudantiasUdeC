@@ -1,24 +1,35 @@
 {% extends 'plataforma/dashboard.html' %}
 
 {% block content %}
-    <div class="jumbotron" style="background-color: white;">
-        <form method="post" class="col col-sm-5">
-            <h2>Nuevo curso</h2>
-            {% csrf_token %}
-            
-            {% if messages %}
-            <ul class="alert alert-danger">
-                {% for message in messages %}
-                    <strong{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</strong>
-                {% endfor %}
-            </ul>
-            {% endif %}
+    <div class="row">
+        <div class="col-xl-6 col-lg-7">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Nuevo curso</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
 
-            {% for field in form %}
-                {{ field.label }}:<br>
-                {{ field }}<br><br>
-            {% endfor %}
-            <input class="btn btn-primary" type="submit" value="Crear Curso">
-        </form>
+                    <form method="post" class="col">
+                        {% csrf_token %}
+                        {% if messages %}
+                            <ul class="alert alert-danger">
+                                {% for message in messages %}
+                                    <strong{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</strong>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+
+                        {% for field in form %}
+                            {{ field.label }}:<br>
+                            {{ field }}<br><br>
+                        {% endfor %}
+                        <input class="btn btn-primary" type="submit" value="Crear Curso">
+                    </form>
+
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
