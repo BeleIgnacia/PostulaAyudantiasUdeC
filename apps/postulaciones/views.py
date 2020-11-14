@@ -7,7 +7,7 @@ from django.views.generic import CreateView, ListView, UpdateView
 from django.contrib import messages
 from django.views.generic.detail import SingleObjectMixin
 
-from apps.postulaciones.forms import RegistrarPostulacionAyudantia,RegistrarPostulacionAlumno
+from apps.postulaciones.forms import RegistrarPostulacionAyudantia, RegistrarPostulacionAlumno
 from apps.plataforma.models import Curso, Usuario
 from apps.postulaciones.models import Ayudantia, Postulacion
 from django import forms
@@ -24,7 +24,7 @@ class OfertasAyudantias(LoginRequiredMixin, ListView):
         alumno = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
         postulaciones = Postulacion.objects.filter(alumno=alumno)
         return Ayudantia.objects.exclude(postulacion__in=postulaciones)
-    
+
     def post(self, request, *args, **kwargs):
         id_ayudantia = request.POST.get('id_ayudantia')
         semestreramo = request.POST.get('semestre')
@@ -35,9 +35,10 @@ class OfertasAyudantias(LoginRequiredMixin, ListView):
             alumno=alumno,
             ayudantia=ayudantia,
             semestreramo=semestreramo,
-            nota = nota
+            nota=nota
         )
         return HttpResponseRedirect(reverse_lazy('postulaciones:listar_ofertas'))
+
 
 class NuevaPostulacion(UserPassesTestMixin, CreateView):
     login_url = '/iniciar/'  # Redirecciona en caso de no haber iniciado sesión
@@ -47,15 +48,9 @@ class NuevaPostulacion(UserPassesTestMixin, CreateView):
     success_url = reverse_lazy('postulaciones:generar_postulacion')
 
     def test_func(self):
-        return not(self.request.session.get('es_docente'))
-    
-      
-      # Crea una postualción sobre la ayudantía escogida
-    
-    
-    
+        return not (self.request.session.get('es_docente'))
 
-
+    # Crea una postualción sobre la ayudantía escogida
 
 
 class NuevaAyudantia(UserPassesTestMixin, CreateView):
@@ -106,15 +101,15 @@ class PostulacionesRealizadas(ListView):
         postulacion = Postulacion.objects.filter(pk=id_postulacion)
         ayudantia = postulacion[0].ayudantia
 
-        if(request.POST.get('data-accept')=="True" ):
+        if request.POST.get('data-accept') == "True":
             postulacion.update(
-                estado = True
+                estado=True
             )
 
             Ayudantia.objects.filter(pk=ayudantia.id).update(
-                puestos = ayudantia.puestos - 1
+                puestos=ayudantia.puestos - 1
             )
         else:
             postulacion.delete()
-        
+
         return HttpResponseRedirect(reverse('postulaciones:mis_ayudantias'))
