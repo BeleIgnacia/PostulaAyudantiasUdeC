@@ -1,55 +1,110 @@
-{% extends 'base/base.html' %}
+{% extends 'base/base_dashboard.html' %}
 {% load static %}
 
+
 {% block header %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-gradient-primary">
-        <a class="navbar-brand" href="/plataforma/" style="font-size: large;"><b>Inicio</b></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarColor01">
-            <ul class="navbar-nav mr-auto">
-                {% if request.session.es_docente is True %}
-                    <!--Navbar de docente-->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Docente</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/plataforma/nuevo_curso/">Nuevo Curso</a>
-                            <a class="dropdown-item" href="/postulaciones/nueva_ayudantia/">Nueva ayudantía</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/postulaciones/mis_ayudantias/">Postulaciones a mis ayudantias</a>
-                        </div>
-                    </li>
-                {% elif request.session.es_administrador is True %}
-                    <!--Navbar de administrador-->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administrador</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/plataforma/nuevo_docente/">Nuevo Docente</a>
-                        </div>
-                    </li>
-                {% else %}
-                    <!--Navbar de alumno-->
-                {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link" href="/postulaciones/ofertas_ayudantias/">Ofertas de ayudantias</a>
-                </li>
-            </ul>
-            <a class="nav-link text-white" href="/plataforma/perfil/{{ request.session.pk_usuario }}/">Mi perfil</a>
-            <a href="{% url 'cerrar_sesion' %}" type="submit" class="btn btn-secondary">Cerrar sesión</a>
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/plataforma/">
+            <div class="sidebar-brand-text mx-3">AyudantiasUdeC</div>
+        </a>
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item active">
+            <a class="nav-link" href="/plataforma/">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Dashboard</span></a>
+        </li>
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        {% if request.session.es_docente is True %}
+            <!--Navbar de docente-->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDocente"
+                   aria-expanded="true" aria-controls="collapseDocente">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span>Docente</span>
+                </a>
+                <div id="collapseDocente" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Crear entradas:</h6>
+                        <a class="collapse-item" href="/plataforma/nuevo_curso/">Nuevo Curso</a>
+                        <a class="collapse-item" href="/postulaciones/nueva_ayudantia/">Nueva ayudantía</a>
+                        <h6 class="collapse-header">Consultar información:</h6>
+                        <a class="collapse-item" href="/postulaciones/mis_ayudantias/">Postulaciones a <br>mis ayudantias</a>
+                    </div>
+                </div>
+            </li>
+        {% elif request.session.es_administrador is True %}
+            <!--Navbar de administrador-->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAdministrador"
+                   aria-expanded="true" aria-controls="collapseAdministrador">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Administrador</span>
+                </a>
+                <div id="collapseAdministrador" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Crear entradas:</h6>
+                        <a class="collapse-item" href="/plataforma/nuevo_docente/">Nuevo Docente</a>
+                        <h6 class="collapse-header">Consultar información:</h6>
+                    </div>
+                </div>
+            </li>
+        {% else %}
+            <!--Navbar de alumno-->
+        {% endif %}
+
+        <!-- Nav Item -->
+        <li class="nav-item">
+            <a class="nav-link" href="/postulaciones/ofertas_ayudantias/">
+                <i class="fas fa-folder-open"></i>
+                <span>Ofertas a ayudantias</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Soporte
         </div>
-    </nav>
+
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+               aria-expanded="true" aria-controls="collapsePages">
+                <i class="fas fa-question"></i>
+                <span>Ayuda</span>
+            </a>
+            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Guía de usuario:</h6>
+                    <a class="collapse-item" href="#">¿Como postular?</a>
+                    <a class="collapse-item" href="#">Proceso de postulación</a>
+                    <div class="collapse-divider"></div>
+                    <h6 class="collapse-header">Contacto:</h6>
+                    <a class="collapse-item" href="#">Contacto con soporte</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
+
+        <!-- Sidebar Toggler (Sidebar) -->
+        <div class="text-center d-none d-md-inline">
+            <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div>
+    </ul>
+    <!-- End of Sidebar -->
 {% endblock %}
 
 {% block content %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
-    <div class="jumbotron">
-        {% if request.session.es_administador is True %}
-            <h2>Bienvenido {{ request.session.first_name }} {{ request.session.last_name }} al panel de administración.</h2>
-        {% elif request.session.es_docente is True %}
-            <h2>Bienvenido {{ request.session.first_name }} {{ request.session.last_name }} al panel de docencia.</h2>
-        {% else %}
-            <h2>Bienvenido {{ request.session.first_name }} {{ request.session.last_name }} al panel de postulación.</h2>
-        {% endif %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
     </div>
 {% endblock %}
