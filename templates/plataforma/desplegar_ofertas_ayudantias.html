@@ -3,7 +3,7 @@
 {% extends 'plataforma/dashboard.html' %}
 
 {% block content %}
-<div class="row">
+
     {% if object_list %}
         <div class="card-columns" id="card-columns">
             {% for ayudantia in object_list %}
@@ -63,7 +63,6 @@
     {% else %}
         <h1>No hay ofertas de asignaturas para el Semestre actual</h1>
     {% endif %}
-</div>
 
 {% endblock %}
 
