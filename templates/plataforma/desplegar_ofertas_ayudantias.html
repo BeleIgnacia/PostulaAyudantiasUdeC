@@ -5,7 +5,8 @@
 {% block content %}
 
     {% if object_list %}
-        <div class="card-columns" id="card-columns">
+        <div class="card-deck" id="card-columns">
+            <div class="card-columns">
             {% for ayudantia in object_list %}
                 <div class="card shadow h-100 py-2">
                     <div class="card-body">
@@ -24,6 +25,7 @@
                     </div>
                 </div>
             {% endfor %}
+            </div>
         </div>
 
         <div class="modal fade" id="ingresarDatos" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
