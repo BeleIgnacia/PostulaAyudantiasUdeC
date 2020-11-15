@@ -1,62 +1,61 @@
 {% extends 'plataforma/dashboard.html' %}
 
 {% block content %}
-    <div class="jumbotron" style="background-color: white;">
-        {% if mi_perfil %}
-            <div class="col">
-                <div class="row">
-                    <div class="col col-sm-2 text-right">
-                        <h4 style="margin-top: 10px">
-                            Correo:
-                        </h4>
+    {% if mi_perfil %}
+        <div class="row">
+            <div class="col-xl-6 col-lg-7">
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Mi perfil</h6>
                     </div>
-                    <div class="col col-sm-6">
-                        <h4 style="margin-top: 10px">{{ request.session.email }}</h4>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col col-sm-2 text-right">
-                        <h4 style="margin-top: 10px">
-                            Nombre:
-                        </h4>
-                    </div>
-                    <div class="col col-sm-6">
-                        <h4 style="margin-top: 10px">{{ request.session.first_name }}</h4>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col col-sm-2 text-right">
-                        <h4 style="margin-top: 10px">
-                            Apellido:
-                        </h4>
-                    </div>
-                    <div class="col col-sm-6">
-                        <h4 style="margin-top: 10px">{{ request.session.last_name }}</h4>
-                    </div>
-                </div>
-                <form method="post">
-                    {% csrf_token %}
-                    {% for field in form %}
-                        <div class="row">
-                            <div class="col col-sm-2 text-right">
-                                <h4 style="margin-top: 10px">{{ field.label }}:</h4>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <form method="post" class="col">
+                            {% csrf_token %}
+                            {% if messages %}
+                                <ul class="alert alert-danger">
+                                    {% for message in messages %}
+                                        <strong{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</strong>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                            <div class="row">
+                                <div class="col col-sm-2 text-left">
+                                    Correo:
+                                </div>
+                                <div class="col col-sm-6">
+                                    {{ request.session.email }}
+                                </div>
                             </div>
-                            <div class="col col-sm-6">
-                                {{ field }}
+                            <div class="row">
+                                <div class="col col-sm-2 text-left">
+                                    Nombre:
+                                </div>
+                                <div class="col col-sm-6">
+                                    {{ request.session.first_name }}
+                                </div>
                             </div>
-                        </div>
-                    {% endfor %}
-                    <div class="row">
-                        <div class="col col-sm-6"></div>
-                        <div class="col col-sm-2">
-                            <br>
+                            <div class="row">
+                                <div class="col col-sm-2 text-left">
+                                    Apellido:
+                                </div>
+                                <div class="col col-sm-6">
+                                    {{ request.session.last_name }}
+                                </div>
+                            </div>
+                        <hr>
+                            {% for field in form %}
+                                {{ field.label }}:<br>
+                                {{ field }}<br><br>
+                            {% endfor %}
                             <input type="submit" value="Guardar" class="btn btn-success btn-block">
-                        </div>
+                        </form>
                     </div>
-                </form>
+                </div>
             </div>
-        {% else %}
-            <h2>Entrada invalida, acceso no autorizado.</h2>
-        {% endif %}
-    </div>
+        </div>
+    {% else %}
+        <h2>Entrada invalida, acceso no autorizado.</h2>
+    {% endif %}
 {% endblock %}
