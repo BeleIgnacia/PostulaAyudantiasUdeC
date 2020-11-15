@@ -3,13 +3,13 @@
 {% extends 'plataforma/dashboard.html' %}
 
 {% block content %}
-
+<div class="row">
     {% if object_list %}
-        <div class="card-columns">
+        <div class="card-columns" id="card-columns">
             {% for ayudantia in object_list %}
-                <div class="card shadow h-100 py-2" id="card_{{ ayudantia.curso.codigo }}">
+                <div class="card shadow h-100 py-2">
                     <div class="card-body">
-                        <h3 class="card-title mb-4" id="title_{{ ayudantia.curso.codigo }}">{{ ayudantia.curso.nombre }}</h3>
+                        <h3 class="card-title mb-4">{{ ayudantia.curso.nombre }}</h3>
                         <h6 class="card-subtitle mb-2 text-muted">Código: {{ ayudantia.curso.codigo }}</h6>
                         <p class="card-text">Docente: {{ ayudantia.curso.docente }}</p>
                         <p class="card-text">{{ ayudantia.descripcion }}</p>
@@ -17,7 +17,7 @@
                         <div class="text-center">
                             {% if not request.session.es_docente and not request.session.es_administrador %}
                                 <!-- Solo a alumno se le permite postular -->
-                                <a type="button" id="btn_{{ ayudantia.curso.codigo }}" class="btn btn-primary btn-block" data-toggle="modal" data-target="#ingresarDatos"
+                                <a type="button" class="btn btn-block" data-toggle="modal" data-target="#ingresarDatos"
                                    data-cursomodal='{ "id":"{{ ayudantia.id }}", "codigo":"{{ ayudantia.curso.codigo }}" ,"nombre_curso":"{{ ayudantia.curso.nombre }}" }'>Postular</a>
                             {% endif %}
                         </div>
@@ -52,9 +52,8 @@
                                 <input id="id_ayudantia" type="hidden" value=' ' name="id_ayudantia">
                                 <input id="semestre" type="hidden" value=" " name="semestre">
                                 <input id="nota" type="hidden" value=" " name="nota">
-
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                <input id="Boton_enviar" type="submit" type="button" class="btn btn-primary" value="Enviar"
+                                <input id="Boton_enviar" type="submit" class="btn btn-success" value="Enviar"/>
                             </div>
                         </form>
                     </div>
@@ -64,6 +63,7 @@
     {% else %}
         <h1>No hay ofertas de asignaturas para el Semestre actual</h1>
     {% endif %}
+</div>
 
 {% endblock %}
 
@@ -88,6 +88,19 @@
 
                 })
             })
+        });
+
+        $(document).ready(function (){
+            let borders = ['border-left-primary', 'border-left-secondary', 'border-left-success', 'border-left-info', 'border-left-warning', 'border-left-danger', 'border-left-dark'];
+            let textColors = ['text-primary', 'text-secondary', 'text-success', 'text-info', 'text-warning', 'text-danger', 'text-dark'];
+            let btnColors = ['btn-primary', 'btn-secondary', 'btn-success', 'btn-info', 'btn-warning', 'btn-danger', 'btn-dark'];
+
+            $('.card').each(function (){
+                let random = Math.floor( Math.random()*borders.length );
+                $(this).addClass(borders[ random ] );
+                $(this).find('.card-title').addClass(textColors[ random ])
+                $(this).find('.btn').addClass(btnColors[ random ]);
+            });
         });
     </script>
 {% endblock %}
