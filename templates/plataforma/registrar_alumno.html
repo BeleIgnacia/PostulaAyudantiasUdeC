@@ -35,7 +35,7 @@
                                         {{ form.password2 }}
                                     </div>
                                 </div>
-                                <input class="btn btn-primary btn-user btn-block" value="Registrar cuenta" type="submit">
+                                <input class="btn btn-user btn-block" style="background-color: #18245C; color: white;" value="Registrar cuenta" type="submit">
                             </form>
                             <hr>
                             <div class="text-center">
@@ -52,7 +52,7 @@
 {% block extrajs %}
     <script>
         const body = document.body;
-        body.classList.add("bg-gradient-primary");
+        body.style.backgroundColor = "#18245C";
         const first_name = document.getElementById('id_first_name');
         const last_name = document.getElementById('id_last_name');
         const email = document.getElementById('id_email');

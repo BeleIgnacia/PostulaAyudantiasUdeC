@@ -4,8 +4,11 @@
 
 {% block header %}
     <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <ul class="navbar-nav bg-gradient sidebar sidebar-dark accordion" style="background-color: #18245C;" id="accordionSidebar">
         <!-- Sidebar - Brand -->
+        <a class="sidebar-header d-flex align-items-center justify-content-center">
+            <img src="/static/images/escudo.gif" style="width: 60px; margin-top: 30px;">
+        </a>
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/plataforma/">
             <div class="sidebar-brand-text mx-3">AyudantiasUdeC</div>
         </a>
@@ -56,6 +59,19 @@
             </li>
         {% else %}
             <!--Navbar de alumno-->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAlumno"
+                   aria-expanded="true" aria-controls="collapseAlumno">
+                    <i class="fas fa-book-reader"></i>
+                    <span>Alumno</span>
+                </a>
+                <div id="collapseAlumno" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Consultar información:</h6>
+                        <a class="collapse-item" href="/postulaciones/mis_postulaciones/">Mis postulaciones</a>
+                    </div>
+                </div>
+            </li>
         {% endif %}
 
         <!-- Nav Item -->

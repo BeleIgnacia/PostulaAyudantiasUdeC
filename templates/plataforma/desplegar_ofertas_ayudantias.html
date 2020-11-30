@@ -92,15 +92,20 @@
         });
 
         $(document).ready(function (){
-            let borders = ['border-left-primary', 'border-left-secondary', 'border-left-success', 'border-left-info', 'border-left-warning', 'border-left-danger', 'border-left-dark'];
-            let textColors = ['text-primary', 'text-secondary', 'text-success', 'text-info', 'text-warning', 'text-danger', 'text-dark'];
-            let btnColors = ['btn-primary', 'btn-secondary', 'btn-success', 'btn-info', 'btn-warning', 'btn-danger', 'btn-dark'];
+            let borders = ['4px solid coral', '4px solid orange', '4px solid cornflowerblue', '4px solid #6FBB89', '4px solid #B57247'];
+            let textColors = ['coral', 'orange', 'cornflowerblue', '#6FBB89', '#B57247'];
+            i = 0;
 
             $('.card').each(function (){
-                let random = Math.floor( Math.random()*borders.length );
-                $(this).addClass(borders[ random ] );
-                $(this).find('.card-title').addClass(textColors[ random ])
-                $(this).find('.btn').addClass(btnColors[ random ]);
+                $(this).css("border-left", borders[i]);
+                $(this).find('.card-title').css("color", textColors[i])
+                $(this).find('.btn').css("background-color", textColors[i]);
+                $(this).find('.btn').css("color", "white");
+                if(i != textColors.length-1){
+                    i = i + 1;
+                }else{
+                    i = 0;
+                }
             });
         });
     </script>

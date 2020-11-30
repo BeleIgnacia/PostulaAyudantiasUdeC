@@ -4,7 +4,7 @@
     <div class="container">
 
         <!-- Outer Row -->
-        <div class="row justify-content-center">
+        <div class="row justify-content-center align-items-center" style="height: 100vh">
 
             <div class="col-xl-10 col-lg-12 col-md-9">
 
@@ -16,7 +16,7 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Bienvenido nuevamente!</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">Bienvenido!</h1>
                                     </div>
                                     <form class="user" method="post">
                                         {% csrf_token %}
@@ -29,7 +29,7 @@
                                             <input type="password" class="form-control form-control-user"
                                                    id="exampleInputPassword" placeholder="Contraseña" name="password">
                                         </div>
-                                        <input class="btn btn-primary btn-user btn-block" type="submit" value="Iniciar sesión">
+                                        <input class="btn btn-user btn-block" style="background-color: #18245C; color: white;" type="submit" value="Iniciar sesión">
                                     </form>
                                     <hr>
                                     <div class="text-center">
@@ -48,6 +48,6 @@
 {% block extrajs %}
     <script>
         const body = document.body;
-        body.classList.add("bg-gradient-primary");
+        body.style.backgroundColor = "#18245C";
     </script>
-{% endblock %}
+{% endblock %}  
