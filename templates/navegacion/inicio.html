@@ -2,17 +2,52 @@
 
 {% load static %}
 
+{% block header %}
+<header class="header" style="background: url('/static/images/arco.JPG') no-repeat center; background-size: cover;  min-height: 100vh; ">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-gradient" style="background-color: transparent; position:absolute; left: 0; right: 0; top: 0;">
+        <a class="navbar-brand" href="/">PostulaAyudantiasUdeC</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/nosotros/">Nosotros</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/ayuda/">Ayuda</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/contacto/">Contacto</a>
+                </li>
+            </ul>
+            <form class="form-inline">
+                <a href="/iniciar/" class="btn" style="background-color:white; color: black; filter: opacity(70%);">Iniciar sesión</a>
+            </form>
+        </div>
+    </nav>
+    <div class="jumbotron" style="background: none; height: cover;">
+        <div class="container" style="margin-top: 10%;">
+            <h1 class="display-3" style="color: white;">Bienvenido!</h1>
+            <h3 style="color: white;">Realice sus postulaciones y sea parte de un proceso transparente.</h4>
+            <br>
+            <p><a href="/registro/" class="btn" style="background-color:royalblue; color:white; filter: opacity(80%);">Registrarse</a></p>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
 {% block content %}
     <main role="main">
-        <!-- Main jumbotron for a primary marketing message or call to action -->
-        <div class="jumbotron" style="background-image: url('/static/images/arco.JPG'); background-repeat: no-repeat; background-size: cover; background-position: center top; height: 700px;">
-            <div class="container text-black">
-                <h1 class="display-3">Bienvenido!</h1>
-                <h4>Realice sus postulaciones y sea parte de un proceso transparente.</h4>
+        <!-- Main jumbotron for a primary marketing message or call to action 
+        <div class="jumbotron" style="background: none; position: relative; left: 0; right: 0; top: 20%;">
+            <div class="container">
+                <h1 class="display-3" style="color: white;">Bienvenido!</h1>
+                <h3 style="color: white;">Realice sus postulaciones y sea parte de un proceso transparente.</h4>
                 <br>
-                <p><a href="/registro/" class="btn btn-success">Registrarse</a></p>
+                <p><a href="/registro/" class="btn" style="background-color: saddlebrown; color:white; filter: opacity(100%);">Registrarse</a></p>
             </div>
-        </div>
+        </div>-->
         <!--
         <div class="container">
             <div class="row">
