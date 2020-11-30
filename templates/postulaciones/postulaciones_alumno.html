@@ -1,0 +1,67 @@
+{% extends 'plataforma/dashboard.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    {% if object_list %}
+        {% for postulacion in object_list %}
+            <div class="row">
+                <div class="col-xl-12 col-lg-7">
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold" style="color: white;">Postulaste a {{ postulacion.ayudantia.curso }}</h6>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body row">
+                            <div class="col col-sm-9">
+                                <h4 class="card-title"> Solicitud para ayudantía de {{ postulacion.ayudantia.curso }} </h4>
+                                <p class="card-text">Realizada con fecha {{ postulacion.fecha }} y hora {{ postulacion.hora }}</p>
+                                <p class="card-text">Puestos disponibles: {{ postulacion.ayudantia.puestos }}</p>
+                            </div>
+                            <div style="border-left: 0.5px solid gainsboro; height: auto;"></div>
+                            <div class="col col-sm-2" style="margin: auto 0;">
+                                <div class="row">
+                                    <div class="col col-sm-12" style="margin-left: 20%; background-color: ;">
+                                        <span>Estado de solicitud:</span>
+                                        <br>
+                                        {% if postulacion.estado == True %}
+                                            <span id="icono_estado" class="fas fa-check-circle"></span>
+                                            <span><b>Aceptada</b></span>
+                                        {% else %}
+                                            <span id="icono_estado" class="fas fa-minus-circle"></span>
+                                            <span><b>Pendiente</b></span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        No se han hecho postulaciones
+    {% endif %}
+{% endblock %}
+
+{% block extrajs %}
+    <script>
+        $(document).ready(function (){
+            let colors = ['background-color:coral', 'background-color:orange', 'background-color: cornflowerblue', 'background-color: #6FBB89', 'background-color: #B57247'];
+            let iconColors = ['color: coral', 'color: orange', 'color: cornflowerblue', 'color: #6FBB89', 'color: #B57247'];
+            i = 0;
+
+            $('.card').each(function (){
+                $(this).find('.card-header').attr('style', colors[i])
+                $(this).find("#icono_estado").attr('style', iconColors[i]);
+                if(i != colors.length-1){
+                    i = i + 1;
+                }else{
+                    i = 0;
+                }
+            });
+        });
+    </script>
+{% endblock %}

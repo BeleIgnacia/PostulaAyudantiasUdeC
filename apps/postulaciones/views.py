@@ -113,3 +113,13 @@ class PostulacionesRealizadas(ListView):
             postulacion.delete()
 
         return HttpResponseRedirect(reverse('postulaciones:mis_ayudantias'))
+
+
+class PostulacionesAlumno(ListView):
+    model = Postulacion
+    template_name = 'postulaciones/postulaciones_alumno.html'
+
+    def get_queryset(self):
+        alumno = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
+        return Postulacion.objects.filter(alumno=alumno)
+    
