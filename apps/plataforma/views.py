@@ -1,6 +1,8 @@
+import requests
+import json
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, TemplateView, UpdateView
@@ -12,34 +14,50 @@ from apps.plataforma.models import Usuario, Curso
 
 # Esta es una vista para creación de un modelo
 # por eso hereda de CreateView
+
+# ambos metodos retornan una lista con los dict de datos
+def get_cursos_list(semestre, email):
+    url = "http://proyectoinformatico.udec.cl/proyecto/1/2020{}00/{}".format(str(semestre), str.upper(email))
+    json_data = requests.get(url).json()
+    return json_data
+
+
+def get_alumno_verify(email):
+    url = "http://proyectoinformatico.udec.cl/proyecto/2/{}".format(str.upper(email))
+    json_data = requests.get(url).json()
+    return json_data
+
+
 class RegistrarAlumno(CreateView):
-    # Se define el modelo sobre el que añade una instancia
     model = Usuario
-    # El formulario que se despliega dentro de la vista
     form_class = RegistrarUsuarioForm
-    # El html que se muestra en el navegador
     template_name = 'plataforma/registrar_alumno.html'
-    # La dirección en caso de que el formulario sea correcto
-    # aquí se utiliza namespace:name
     success_url = reverse_lazy('iniciar_sesion')
 
-    # Función que se ejecuta antes de entregar el template
     def get_context_data(self, **kwargs):
-        # Esta linea se repite siempre, solo le cambian la class
         context = super(RegistrarAlumno, self).get_context_data(**kwargs)
-        # Aquí añadimos lo que queramos al context, en este caso un formulario
-        # El context lo recibe el template y lo maneja el navegador
         if 'form' not in context:
             context['form'] = self.form_class(self.request.GET)
-        # Al retornar se entrega el context al navegador
         return context
 
-    # Función que se ejecuta en caso que el formulario sea valido
-    def form_valid(self, form):
-        # Recibe formulario como una instancia
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            usuario = form.save(commit=False)
+
+            cursos_list = get_cursos_list(2, usuario.email)
+            # Condición para que sea docente este semestre
+            if len(cursos_list) > 0:
+                return HttpResponse("es docente")
+            else:
+                alumno_verify = get_alumno_verify(usuario.email)
+                # Condición para que sea docente
+                if len(alumno_verify) > 0:
+                    return HttpResponse("es alumno")
+            return HttpResponse("no es nada")
+
+    '''def form_valid(self, form):
         instance = form.save(commit=False)
-        # Aquí pueden editar la instancia
-        # En este caso usaremos el email como username igualmente
         instance.username = instance.email
 
         emails = Usuario.objects.values_list('email', flat=True)
@@ -47,11 +65,8 @@ class RegistrarAlumno(CreateView):
             if instance.email == email:
                 messages.error(self.request, "Ya existe un usuario con esta dirección de correo.")
                 return HttpResponseRedirect(self.request.path_info)
-
-                # Se guarda la instancia en la BD
         instance.save()
-        # Redirect
-        return HttpResponseRedirect(reverse_lazy('iniciar_sesion'))
+        return HttpResponseRedirect(reverse_lazy('iniciar_sesion'))'''
 
 
 # La vista de inciar sesión esta definida como función
