@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 
-from apps.plataforma.views import RegistrarAlumno, iniciar_sesion, cerrar_sesion
+from apps.plataforma.views import RegistrarUsuario, iniciar_sesion, cerrar_sesion
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -14,7 +14,7 @@ urlpatterns = [
     path('plataforma/', include(('apps.plataforma.urls', 'app_name'), namespace='plataforma')),
     path('postulaciones/', include(('apps.postulaciones.urls', 'app_name'), namespace='postulaciones')),
     # Entradas de registro e inicio de sesión
-    path('registro/', RegistrarAlumno.as_view(), name='register_alumno'),
+    path('registro/', RegistrarUsuario.as_view(), name='register_alumno'),
     path('iniciar/', iniciar_sesion, name='iniciar_sesion'),
     path('cerrar/', cerrar_sesion, name='cerrar_sesion'),
 ]

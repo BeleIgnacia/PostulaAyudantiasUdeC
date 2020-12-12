@@ -30,14 +30,14 @@ def get_alumno_verify(email):
 semestre_actual = 2
 
 
-class RegistrarAlumno(CreateView):
+class RegistrarUsuario(CreateView):
     model = Usuario
     form_class = RegistrarUsuarioForm
     template_name = 'plataforma/registrar_alumno.html'
     success_url = reverse_lazy('iniciar_sesion')
 
     def get_context_data(self, **kwargs):
-        context = super(RegistrarAlumno, self).get_context_data(**kwargs)
+        context = super(RegistrarUsuario, self).get_context_data(**kwargs)
         if 'form' not in context:
             context['form'] = self.form_class(self.request.GET)
         return context
@@ -70,6 +70,7 @@ class RegistrarAlumno(CreateView):
                 alumno_verify = get_alumno_verify(usuario.email)
                 if len(alumno_verify) == 1:  # Condición de alumno
                     usuario.matricula = alumno_verify[0]['matricula']  # Asocia la matricula al alumno
+                    usuario.save()
                     return HttpResponseRedirect(reverse_lazy('iniciar_sesion'))
             return HttpResponse("no es nada")
 
@@ -126,7 +127,7 @@ class Dashboard(LoginRequiredMixin, TemplateView):
     template_name = 'plataforma/dashboard.html'
 
 
-class RegistrarDocente(UserPassesTestMixin, CreateView):
+'''class RegistrarDocente(UserPassesTestMixin, CreateView):
     login_url = '/iniciar/'
     model = Usuario
     form_class = RegistrarUsuarioForm
@@ -152,10 +153,10 @@ class RegistrarDocente(UserPassesTestMixin, CreateView):
                 return HttpResponseRedirect(self.request.path_info)
 
         instance.save()
-        return HttpResponseRedirect(reverse_lazy('plataforma:dashboard'))
+        return HttpResponseRedirect(reverse_lazy('plataforma:dashboard'))'''
 
 
-class NuevoCurso(UserPassesTestMixin, CreateView):
+'''class NuevoCurso(UserPassesTestMixin, CreateView):
     login_url = '/iniciar/'
     model = Curso
     form_class = NuevoCursoForm
@@ -177,7 +178,7 @@ class NuevoCurso(UserPassesTestMixin, CreateView):
         docente = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
         instance.docente = docente
         instance.save()
-        return HttpResponseRedirect(reverse_lazy('plataforma:nuevo_curso'))
+        return HttpResponseRedirect(reverse_lazy('plataforma:nuevo_curso'))'''
 
 
 # Editar perfil

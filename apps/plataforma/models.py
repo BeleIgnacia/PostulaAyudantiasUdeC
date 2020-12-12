@@ -14,6 +14,7 @@ class Usuario(User):
     # Información adicional
     intereses = models.TextField()
     ETAPAS = (
+        (0, 'No aplica'),
         (1, 'Primer año'),
         (2, 'Segundo año'),
         (3, 'Tercer año'),
@@ -22,6 +23,7 @@ class Usuario(User):
         (6, 'Sexto año o superior')
     )
     AREAS = (
+        ('No aplica', 'No aplica'),
         ('Pregrado', 'Pregrado'),
         ('Postgrado', 'Postgrado'),
         ('Externo', 'Externo')
@@ -29,9 +31,10 @@ class Usuario(User):
     etapa_carrera = models.IntegerField(default=0, choices=ETAPAS)
     area = models.CharField(max_length=20, default=0, choices=AREAS)
 
-    # Esta función se usa para representar el objeto al realizar una query
-    def __str__(self):
-        return '{} {}'.format(self.user.first_name, self.user.last_name)
+
+# Esta función se usa para representar el objeto al realizar una query
+def __str__(self):
+    return '{} {}'.format(self.user.first_name, self.user.last_name)
 
 
 class Curso(models.Model):
