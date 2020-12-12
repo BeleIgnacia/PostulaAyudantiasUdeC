@@ -8,7 +8,7 @@ class RegistrarPostulacionAyudantia(forms.ModelForm):
         model = Ayudantia
         fields = [
             'curso',
-            'semestre',
+            # 'semestre',
             'descripcion',
             'horario',
             'requisito',
@@ -16,14 +16,14 @@ class RegistrarPostulacionAyudantia(forms.ModelForm):
         ]
         labels = {
             'curso': 'Curso',
-            'semestre': 'Semestre',
+            # 'semestre': 'Semestre',
             'descripcion': 'Descripción breve',
             'horario': 'Horario',
             'requisito': 'Requisitos del curso',
             'puestos': 'Nº de puestos vacantes',
         }
         widgets = {
-            'semestre': forms.NumberInput(attrs={'placeholder': 'Semestre', 'class': 'form-control', 'max': 3, 'min': 1}),
+            # 'semestre': forms.NumberInput(attrs={'placeholder': 'Semestre', 'class': 'form-control', 'max': 3, 'min': 1}),
             'descripcion': forms.Textarea(attrs={'placeholder': 'Descripción', 'class': 'form-control', 'cols': 6, 'rows': 6}),
             'horario': forms.TextInput(attrs={'placeholder': 'Ej: Martes 10:15 - 12:00', 'class': 'form-control'}),
             'requisito': forms.TextInput(attrs={'placeholder': 'Ej: Ingeniería de Software 2', 'class': 'form-control'}),

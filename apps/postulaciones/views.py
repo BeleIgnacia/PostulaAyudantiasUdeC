@@ -7,6 +7,7 @@ from django.views.generic import CreateView, ListView, UpdateView
 from django.contrib import messages
 from django.views.generic.detail import SingleObjectMixin
 
+from apps.plataforma.views import semestre_actual
 from apps.postulaciones.forms import RegistrarPostulacionAyudantia, RegistrarPostulacionAlumno
 from apps.plataforma.models import Curso, Usuario
 from apps.postulaciones.models import Ayudantia, Postulacion
@@ -67,21 +68,22 @@ class NuevaAyudantia(UserPassesTestMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(NuevaAyudantia, self).get_context_data(**kwargs)
         docente = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
-        cursos = Curso.objects.filter(docente_id=docente)
-        context['form'].fields['curso'] = forms.ModelChoiceField(queryset=cursos, empty_label="Seleccione curso", widget=forms.Select(attrs={'class': 'form-control'}))
-        if 'form' not in context:
-            context['form'] = self.form_class(self.request.GET)
+        cursos = Curso.objects.filter(docente=docente)  # QS con todos los cursos del docente
+        # Se eliminan los cursos que ya tienen ayudantías
+        cursos_con_ayudantias = Ayudantia.objects.filter(curso__in=cursos)  # QS de ayudantias con sus cursos ocupados
+        cursos_excluidos = Curso.objects.filter(id__in=cursos_con_ayudantias.values('curso'))  # QS de los cursos que ya tienen ayudantia
+        cursos = cursos.difference(cursos_excluidos)  # cursos diponibles para ofertar, equivalente a un EXCEPT en sql
+        context['form'].fields['curso'] = forms.ModelChoiceField(
+            queryset=cursos,
+            empty_label="Seleccione curso",
+            widget=forms.Select(attrs={'class': 'form-control'})
+        )
         return context
 
     def form_valid(self, form):
-        instance = form.save(commit=False)
-        cursos_ids = Ayudantia.objects.values_list('curso_id', flat=True)
-        cursos = Curso.objects.filter(id__in=cursos_ids)
-        for curso in cursos:
-            if instance.curso.codigo == curso.codigo:
-                messages.error(self.request, "Ya existe una ayudantía para este curso.")
-                return HttpResponseRedirect(self.request.path_info)
-        instance.save()
+        ayudantia = form.save(commit=False)
+        ayudantia.semestre = semestre_actual  # Se asigna el semestre actual a la ayudantía
+        ayudantia.save()
         return HttpResponseRedirect(reverse_lazy('postulaciones:nueva_ayudantia'))
 
 
@@ -122,4 +124,3 @@ class PostulacionesAlumno(ListView):
     def get_queryset(self):
         alumno = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
         return Postulacion.objects.filter(alumno=alumno)
-    
