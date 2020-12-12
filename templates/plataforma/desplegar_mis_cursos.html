@@ -1,5 +1,17 @@
 {% extends 'plataforma/dashboard.html' %}
 
 {% block content %}
-    {{ mis_cursos }}
+    {{ cursos }}
+
+    <br>
+
+    {% for curso in cursos %}
+        {{ curso.codigo }}
+        {{ curso.seccion }}
+        {{ curso.nombre }}
+        {{ curso.descripcion }}
+        <button type="button" class="btn btn-primary" >Editar</button>
+        <br>
+    {% endfor %}
+    <h2>Editar debe editar unicamente la descripcción del curso, los input name deben ser id_curso y descripcion, para que los lea el post.</h2>
 {% endblock %}

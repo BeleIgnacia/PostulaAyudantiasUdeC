@@ -208,5 +208,17 @@ class MisCursos(LoginRequiredMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(MisCursos, self).get_context_data()
         docente = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
-        context['mis_cursos'] = Curso.objects.filter(docente=docente)
+        context['cursos'] = Curso.objects.filter(docente=docente)
         return context
+
+    def post(self, request, *args, **kwargs):
+        id_curso = request.POST.get['id_curso']
+        descripcion = request.POST.get['descripcion']
+        docente = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
+        if Curso.objects.filter(pk=id_curso, docente=docente).count() == 0:
+            curso = Curso.objects.get(pk=id_curso)
+            curso.descripcion = descripcion
+            curso.save()
+            return HttpResponseRedirect(reverse_lazy('plataforma:mis_cursos'))
+        else:
+            return HttpResponse("Usted no se encuentra autorizado a editar este curso")
