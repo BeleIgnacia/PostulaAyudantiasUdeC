@@ -39,7 +39,8 @@ class Curso(models.Model):
     # Atributos
     codigo = models.PositiveBigIntegerField(default=0)
     nombre = models.CharField(max_length=50, null=False)
-    descripcion = models.TextField()
+    descripcion = models.TextField(null=True, blank=True)
+    seccion = models.PositiveSmallIntegerField(default=0)
 
     def __str__(self):
         return '({}) {}'.format(self.codigo, self.nombre)

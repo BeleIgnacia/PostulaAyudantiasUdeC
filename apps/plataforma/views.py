@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, TemplateView, UpdateView
+from django.views.generic import CreateView, TemplateView, UpdateView, ListView
 from django.contrib import messages
 
 from apps.plataforma.forms import RegistrarUsuarioForm, NuevoCursoForm, ActualizarPerfilForm
@@ -46,16 +46,26 @@ class RegistrarAlumno(CreateView):
         form = self.form_class(request.POST)
         if form.is_valid():
             usuario = form.save(commit=False)
+            usuario.email = str.lower(usuario.email)
             usuario.username = usuario.email
 
             # En primer lugar se verifica el correo
-            if Usuario.objects.filter(username__iexact=usuario.username).count() > 0:
+            if Usuario.objects.filter(username=usuario.username).count() > 0:
                 return HttpResponse("ya existe el usuario")
 
             # En segundo lugar se verifica si es docente o alumno
             cursos_list = get_cursos_list(semestre_actual, usuario.email)
             if len(cursos_list) > 0:  # Condición de docente para el semestre actual
-                return HttpResponse("es docente")
+                usuario.es_docente = True  # Se marca como docente
+                usuario.save()  # Almacenamos el docente antes de crear cursos
+                for curso in cursos_list:
+                    Curso(
+                        docente=usuario,
+                        codigo=curso['codigoAsignatura'],
+                        nombre=curso['nombreAsignatura'],
+                        seccion=curso['seccion']
+                    ).save()
+                return HttpResponseRedirect(reverse_lazy('iniciar_sesion'))
             else:
                 alumno_verify = get_alumno_verify(usuario.email)
                 if len(alumno_verify) == 1:  # Condición de alumno
@@ -76,11 +86,7 @@ class RegistrarAlumno(CreateView):
         return HttpResponseRedirect(reverse_lazy('iniciar_sesion'))'''
 
 
-# La vista de inciar sesión esta definida como función
-# pueden utilizarla como quieran
-# pero usarla como función es un poco feo -_-
 def iniciar_sesion(request):
-    # Metodos post en caso de hacer un POST obviously
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -192,3 +198,14 @@ class ActualizarPerfil(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('plataforma:perfil', kwargs={'pk': self.object.pk})
+
+
+class MisCursos(LoginRequiredMixin, ListView):
+    model = Curso
+    template_name = 'plataforma/desplegar_mis_cursos.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(MisCursos, self).get_context_data()
+        docente = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
+        context['mis_cursos'] = Curso.objects.filter(docente=docente)
+        return context
