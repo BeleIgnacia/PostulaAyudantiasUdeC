@@ -1,5 +1,4 @@
 import requests
-import json
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.http import HttpResponseRedirect, HttpResponse
@@ -28,6 +27,9 @@ def get_alumno_verify(email):
     return json_data
 
 
+semestre_actual = 2
+
+
 class RegistrarAlumno(CreateView):
     model = Usuario
     form_class = RegistrarUsuarioForm
@@ -44,16 +46,21 @@ class RegistrarAlumno(CreateView):
         form = self.form_class(request.POST)
         if form.is_valid():
             usuario = form.save(commit=False)
+            usuario.username = usuario.email
 
-            cursos_list = get_cursos_list(2, usuario.email)
-            # Condición para que sea docente este semestre
-            if len(cursos_list) > 0:
+            # En primer lugar se verifica el correo
+            if Usuario.objects.filter(username__iexact=usuario.username).count() > 0:
+                return HttpResponse("ya existe el usuario")
+
+            # En segundo lugar se verifica si es docente o alumno
+            cursos_list = get_cursos_list(semestre_actual, usuario.email)
+            if len(cursos_list) > 0:  # Condición de docente para el semestre actual
                 return HttpResponse("es docente")
             else:
                 alumno_verify = get_alumno_verify(usuario.email)
-                # Condición para que sea docente
-                if len(alumno_verify) > 0:
-                    return HttpResponse("es alumno")
+                if len(alumno_verify) == 1:  # Condición de alumno
+                    usuario.matricula = alumno_verify[0]['matricula']  # Asocia la matricula al alumno
+                    return HttpResponseRedirect(reverse_lazy('iniciar_sesion'))
             return HttpResponse("no es nada")
 
     '''def form_valid(self, form):

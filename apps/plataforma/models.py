@@ -7,6 +7,7 @@ from django.db import models
 class Usuario(User):
     # Herencia de atributos desde User
     user = models.OneToOneField(User, parent_link=True, on_delete=models.CASCADE)
+    matricula = models.PositiveBigIntegerField(null=True, blank=True)
     # Identificadores para tipo de usuario
     es_administrador = models.BooleanField(default=False)
     es_docente = models.BooleanField(default=False)
