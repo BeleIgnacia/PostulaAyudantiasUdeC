@@ -2,35 +2,50 @@
 
 {% load static %}
 
+
 {% block content %}
+ 
+
+
+    {% for curso in cursos %}
+        
+        <button type = "button" class="btn btn-primary" data-toggle="collapse" href= #({{ curso.codigo}}) role="button" aria-expanded="true" aria-controls="multiCollapseExample1">{{ curso.nombre }}</button>
+
+    {% endfor %}
+ <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="true" aria-controls="multiCollapseExample1">Todas</button>
+ 
+ 
+ 
     {% if object_list %}
         {% for postulacion in object_list %}
             <div class="row">
                 <div class="col-xl-12 col-lg-7">
                     <div class="card shadow mb-4">
+                        <div class="collapse multi-collapse" id= {{ postulacion.ayudantia.curso }} >
                         <!-- Card Header - Dropdown -->
-                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold" style="color: white;">Postulación a {{ postulacion.ayudantia.curso }}</h6>
-                        </div>
-                        <!-- Card Body -->
-                        <div class="card-body row shadow ">
-                            <div class="col col-sm-9">
-                                <h4 class="card-title"><span id="icono_estado" style="display:none {% if postulacion.estado %} inline {% endif %};" class="fas fa-check-circle"></span> Postulación de {{ postulacion.alumno }} a {{ postulacion.ayudantia.curso }} </h4>
-                                <p class="card-text">Realizada con fecha {{ postulacion.fecha }} y hora {{ postulacion.hora }}</p>
-                                <p class="card-text">Puestos disponibles: {{ postulacion.ayudantia.puestos }}</p>
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold" style="color: white;"> Postulación a {{ postulacion.ayudantia.curso }}</h6>
                             </div>
-                            <div class="col col-sm-3" style="margin: auto 0;">
-                                <div class="row">
-                                    <div class="col col-sm-7" style="margin-left: 20%;">
-                                        <button type="button" class="btn btn-block" data-toggle="modal" data-target="#detallesPostulacion"
-                                                data-postulacionmodal='{ "id":"{{ postulacion.id }}", "ayudantia_curso":"{{ postulacion.ayudantia.curso }}", "ayudantia_semestre":"{{ postulacion.ayudantia.semestre }}", "ayudantia_descripcion":"{{ postulacion.ayudantia.descripcion }}", "ayudantia_horario":"{{ postulacion.ayudantia.horario }}", "puestos":"{{ postulacion.ayudantia.puestos }}",
-                                        "alumno":"{{ postulacion.alumno }}", "email":"{{ postulacion.alumno.email }}", "fecha":"{{ postulacion.fecha }}", "hora":"{{ postulacion.hora }}", "nota":"{{ postulacion.nota }}", "semestre_ramo":"{{ postulacion.semestreramo }}", "area":"{{ postulacion.alumno.area }}", "anio_carrera":"{{ postulacion.alumno.etapa_carrera }}", "intereses":"{{ postulacion.alumno.intereses }}", "estado":"{{ postulacion.estado }}"}'>
-                                            Ver más
-                                        </button>
+                            <!-- Card Body -->
+                            <div class="card-body row shadow ">
+                                <div class="col col-sm-9">
+                                    <h4 class="card-title"><span id="icono_estado" style="display:none {% if postulacion.estado %} inline {% endif %};" class="fas fa-check-circle"></span> Postulación de {{ postulacion.alumno }} a {{ postulacion.ayudantia.curso }} </h4>
+                                    <p class="card-text">Realizada con fecha {{ postulacion.fecha }} y hora {{ postulacion.hora }}</p>
+                                    <p class="card-text">Puestos disponibles: {{ postulacion.ayudantia.puestos }}</p>
+                                </div>
+                                <div class="col col-sm-3" style="margin: auto 0;">
+                                    <div class="row">
+                                        <div class="col col-sm-7" style="margin-left: 20%;">
+                                            <button type="button" class="btn btn-block" data-toggle="modal" data-target="#detallesPostulacion"
+                                                    data-postulacionmodal='{ "id":"{{ postulacion.id }}", "ayudantia_curso":"{{ postulacion.ayudantia.curso }}", "ayudantia_semestre":"{{ postulacion.ayudantia.semestre }}", "ayudantia_descripcion":"{{ postulacion.ayudantia.descripcion }}", "ayudantia_horario":"{{ postulacion.ayudantia.horario }}", "puestos":"{{ postulacion.ayudantia.puestos }}",
+                                            "alumno":"{{ postulacion.alumno }}", "email":"{{ postulacion.alumno.email }}", "fecha":"{{ postulacion.fecha }}", "hora":"{{ postulacion.hora }}", "nota":"{{ postulacion.nota }}", "semestre_ramo":"{{ postulacion.semestreramo }}", "area":"{{ postulacion.alumno.area }}", "anio_carrera":"{{ postulacion.alumno.etapa_carrera }}", "intereses":"{{ postulacion.alumno.intereses }}", "estado":"{{ postulacion.estado }}"}'>
+                                                Ver más
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>    
                     </div>
                 </div>
             </div>
@@ -94,6 +109,9 @@
             </div>
         </div>
     </div>
+
+    <p>
+  
 {% endblock %}
 
 {% block extrajs %}
