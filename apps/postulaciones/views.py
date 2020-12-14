@@ -11,6 +11,7 @@ from apps.plataforma.views import semestre_actual
 from apps.postulaciones.forms import RegistrarPostulacionAyudantia, RegistrarPostulacionAlumno
 from apps.plataforma.models import Curso, Usuario
 from apps.postulaciones.models import Ayudantia, Postulacion
+
 from django import forms
 
 
@@ -88,16 +89,23 @@ class NuevaAyudantia(UserPassesTestMixin, CreateView):
 
 
 # Postulaciones realizadas sobre mis ayudantias ofrecidas
-class PostulacionesRealizadas(ListView):
+class PostulacionesRealizadas(LoginRequiredMixin, ListView):
     model = Postulacion
+    context_object_name =  'mis_ayudantias'
     template_name = 'postulaciones/postulaciones_realizadas.html'
-
-    # Filtra las postulaciones sobre mis ayudantias
-    def get_queryset(self):
+    
+    # Filtra las postulaciones sobre mis ayudantias  
+ 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(PostulacionesRealizadas, self).get_context_data()
         docente = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
+        context['cursos'] = Curso.objects.filter(docente=docente)
         ayudantias = Ayudantia.objects.filter(curso__docente=docente)
-        return Postulacion.objects.filter(ayudantia__in=ayudantias)
-
+        context['postulacion']= Postulacion.objects.filter(ayudantia__in=ayudantias)
+        
+        print(context['postulacion'])
+        return context
+    
     def post(self, request, *args, **kwargs):
         id_postulacion = request.POST.get('id_postulacion')
         postulacion = Postulacion.objects.filter(pk=id_postulacion)
@@ -115,6 +123,29 @@ class PostulacionesRealizadas(ListView):
             postulacion.delete()
 
         return HttpResponseRedirect(reverse('postulaciones:mis_ayudantias'))
+
+class MisCursos(LoginRequiredMixin, ListView):
+    model = Curso
+    template_name = 'postulaciones/postulaciones_realizadas.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(MisCursos, self).get_context_data()
+        docente = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
+        context['cursos'] = Curso.objects.filter(docente=docente)
+        return context
+
+
+    def post(self, request, *args, **kwargs):
+        id_curso = request.POST.get['id_curso']
+        descripcion = request.POST.get['descripcion']
+        docente = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
+        if Curso.objects.filter(pk=id_curso, docente=docente).count() == 0:
+            curso = Curso.objects.get(pk=id_curso)
+            curso.descripcion = descripcion
+            curso.save()
+            return HttpResponseRedirect(reverse_lazy('plataforma:mis_cursos'))
+        else:
+            return HttpResponse("Usted no se encuentra autorizado a editar este curso")
 
 
 class PostulacionesAlumno(ListView):
