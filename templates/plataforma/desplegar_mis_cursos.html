@@ -1,18 +1,83 @@
 {% extends 'plataforma/dashboard.html' %}
 
 {% block content %}
-    {{ cursos }}
+    <div class="row">
+        <div class="col-xl-12 col-lg-7">
+            <div class="card shadow">
+                <ul class="list-group list-group-flush">
+                    {% for curso in cursos %}
+                        <div class="list-group-item p-4">
+                            <h5 class="text-primary">{{ curso.nombre }}</h5>
+                            <div class="row">
+                                <div class="col col-sm-11">
+                                    {% if curso.descripcion != NULL %}
+                                        {{ curso.descripcion }}
+                                    {% endif %}
+                                </div>
+                                <div class="col col-sm-1">
+                                    <a type="button" class="btn btn-light btn-sm" data-toggle="modal" data-target="#editarCurso"
+                                                            data-cursomodal='{ "id_curso":"{{ curso.id }}", "nombre_curso":"{{ curso.nombre }}", "descripcion_curso":"{{ curso.descripcion }}" }'><i class="fas fa-edit"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
 
-    <br>
-
-    {% for curso in cursos %}
-        {{ curso.codigo }}
-        {{ curso.seccion }}
-        {{ curso.nombre }}
-        {{ curso.descripcion }}
-        <button type="button" class="btn btn-primary" >Editar</button>
-        <br>
-    {% endfor %}
-    <h2>Editar debe editar unicamente la descripcción del curso, los input name deben ser id_curso y descripcion, para que los lea el post.</h2>
+    <div class="modal fade" id="editarCurso" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary" id="exampleModalLabel">Nombre Curso</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <p>Editar descripción del curso:</p>
+                            <textarea id="descripcion_modal" type="text" class="form-control" rows="10" placeholder="..."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <form id="form_accept" method="post">
+                        {% csrf_token %}
+                        <div>
+                            <input id="id_curso_form" type="hidden" value=' ' name="id_curso">
+                            <input id="descripcion_form" type="text" value=" " name="descripcion" style="display:none;">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <input id="Boton_enviar" type="submit" class="btn btn-primary" value="Guardar"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
    
+{% endblock %}
+
+{% block extrajs %}
+    <script>
+        $('#editarCurso').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var recipient = button.data('cursomodal') // Extract info from data-* attributes
+
+            var modal = $(this)
+            modal.find('.modal-title ').text( recipient.nombre_curso )
+            if (recipient.descripcion_curso != "None") {
+                modal.find("#descripcion_modal").text( recipient.descripcion_curso )
+            }else{
+                modal.find("#descripcion_modal").text( '' )
+            }
+
+            $("#Boton_enviar").click(function (event) {
+                $("#id_curso_form").val( recipient.id_curso )
+                $("#descripcion_form").val( $("#descripcion_modal").val() )
+            })
+        });
+    </script>
 {% endblock %}

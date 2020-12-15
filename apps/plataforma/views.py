@@ -212,10 +212,10 @@ class MisCursos(LoginRequiredMixin, ListView):
         return context
 
     def post(self, request, *args, **kwargs):
-        id_curso = request.POST.get['id_curso']
-        descripcion = request.POST.get['descripcion']
+        id_curso = request.POST.get('id_curso')
+        descripcion = request.POST.get('descripcion')
         docente = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
-        if Curso.objects.filter(pk=id_curso, docente=docente).count() == 0:
+        if Curso.objects.filter(pk=id_curso, docente=docente).count() > 0:
             curso = Curso.objects.get(pk=id_curso)
             curso.descripcion = descripcion
             curso.save()
