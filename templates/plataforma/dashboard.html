@@ -15,7 +15,7 @@
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
         <!-- Nav Item - Dashboard -->
-        <li class="nav-item active">
+        <li id="li_inicio" class="nav-item">
             <a class="nav-link" href="/plataforma/">
                 <i class="fas fa-home"></i>
                 <span>Inicio</span></a>
@@ -25,7 +25,7 @@
 
         {% if request.session.es_docente is True %}
             <!--Navbar de docente-->
-            <li class="nav-item">
+            <li id="li_docente" class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDocente"
                    aria-expanded="true" aria-controls="collapseDocente">
                     <i class="fas fa-chalkboard-teacher"></i>
@@ -59,7 +59,7 @@
             </li>
         {% else %}
             <!--Navbar de alumno-->
-            <li class="nav-item">
+            <li id="li_alumno" class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAlumno"
                    aria-expanded="true" aria-controls="collapseAlumno">
                     <i class="fas fa-book-reader"></i>
@@ -75,7 +75,7 @@
         {% endif %}
 
         <!-- Nav Item -->
-        <li class="nav-item">
+        <li id="li_ofertas" class="nav-item">
             <a class="nav-link" href="/postulaciones/ofertas_ayudantias/">
                 <i class="fas fa-folder-open"></i>
                 <span>Ofertas a ayudantias</span></a>
