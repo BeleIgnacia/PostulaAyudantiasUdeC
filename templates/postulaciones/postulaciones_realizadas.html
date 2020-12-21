@@ -4,13 +4,15 @@
 
 
 {% block content %}
-
+    <h2 class = "row" style = "margin-left:1px"> Seleccione uno de sus cursos para ver las postulaciones </h2>
+    <br>
+    <!--<button class="btn btn-primary navbar-inverse" type="button" style = "margin-bottom:10px; margin-right:10px "  data-toggle="collapse" data-target=".multi-collapse" aria-expanded="False" aria-controls="multiCollapseExample1">Todas las postulaciones</button>-->
     {% for curso in cursos %}
-        
-        <button type = "button" class="btn btn-primary" data-toggle="collapse" href= #({{ curso.codigo}}) role="button" aria-expanded="true" aria-controls="multiCollapseExample1">{{ curso.nombre }}</button>
-
+        <button type = "button" class="btn btn-primary btn-active" style = "margin-bottom:10px; margin-right:10px " data-toggle="collapse" href= #({{ curso.codigo}}) role="button" aria-expanded="true" aria-controls="multiCollapseExample1">{{ curso.nombre }}</button>
     {% endfor %}
- <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="true" aria-controls="multiCollapseExample1">Todas</button>
+ <br>
+ <br>
+ <br>
  
  
  
