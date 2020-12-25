@@ -1,13 +1,12 @@
 import requests
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, TemplateView, UpdateView, ListView
-from django.contrib import messages
 
-from apps.plataforma.forms import RegistrarUsuarioForm, NuevoCursoForm, ActualizarPerfilForm
+from apps.plataforma.forms import RegistrarUsuarioForm, ActualizarPerfilForm
 from apps.plataforma.models import Usuario, Curso
 
 
@@ -74,18 +73,6 @@ class RegistrarUsuario(CreateView):
                     return HttpResponseRedirect(reverse_lazy('iniciar_sesion'))
             return HttpResponse("no es nada")
 
-    '''def form_valid(self, form):
-        instance = form.save(commit=False)
-        instance.username = instance.email
-
-        emails = Usuario.objects.values_list('email', flat=True)
-        for email in emails:
-            if instance.email == email:
-                messages.error(self.request, "Ya existe un usuario con esta dirección de correo.")
-                return HttpResponseRedirect(self.request.path_info)
-        instance.save()
-        return HttpResponseRedirect(reverse_lazy('iniciar_sesion'))'''
-
 
 def iniciar_sesion(request):
     if request.method == 'POST':
@@ -125,60 +112,6 @@ def cerrar_sesion(request):
 class Dashboard(LoginRequiredMixin, TemplateView):
     login_url = '/iniciar/'
     template_name = 'plataforma/dashboard.html'
-
-
-'''class RegistrarDocente(UserPassesTestMixin, CreateView):
-    login_url = '/iniciar/'
-    model = Usuario
-    form_class = RegistrarUsuarioForm
-    template_name = 'plataforma/registrar_docente.html'
-    success_url = reverse_lazy('plataforma:registrar_docente')
-
-    def test_func(self):
-        return self.request.session.get('es_administrador')
-
-    def get_context_data(self, **kwargs):
-        context = super(RegistrarDocente, self).get_context_data(**kwargs)
-        return context
-
-    def form_valid(self, form):
-        instance = form.save(commit=False)
-        instance.username = instance.email
-        instance.es_docente = True
-
-        emails = Usuario.objects.values_list('email', flat=True)
-        for email in emails:
-            if instance.email == email:
-                messages.error(self.request, "Ya existe un usuario con esta dirección de correo.")
-                return HttpResponseRedirect(self.request.path_info)
-
-        instance.save()
-        return HttpResponseRedirect(reverse_lazy('plataforma:dashboard'))'''
-
-
-'''class NuevoCurso(UserPassesTestMixin, CreateView):
-    login_url = '/iniciar/'
-    model = Curso
-    form_class = NuevoCursoForm
-    template_name = 'plataforma/nuevo_curso.html'
-    success_url = reverse_lazy('plataforma:nuevo_curso')
-
-    def test_func(self):
-        return self.request.session.get('es_docente')
-
-    def form_valid(self, form):
-        instance = form.save(commit=False)
-
-        codigos = Curso.objects.values_list('codigo', flat=True)
-        for codigo in codigos:
-            if instance.codigo == codigo:
-                messages.error(self.request, "Ya existe este curso.")
-                return HttpResponseRedirect(self.request.path_info)
-
-        docente = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
-        instance.docente = docente
-        instance.save()
-        return HttpResponseRedirect(reverse_lazy('plataforma:nuevo_curso'))'''
 
 
 # Editar perfil

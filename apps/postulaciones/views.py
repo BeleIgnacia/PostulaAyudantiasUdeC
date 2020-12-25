@@ -1,18 +1,13 @@
-from django.contrib.auth import authenticate, login
+from django import forms
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, ListView, UpdateView
-from django.contrib import messages
-from django.views.generic.detail import SingleObjectMixin
+from django.views.generic import CreateView, ListView
 
+from apps.plataforma.models import Curso, Usuario
 from apps.plataforma.views import semestre_actual
 from apps.postulaciones.forms import RegistrarPostulacionAyudantia, RegistrarPostulacionAlumno
-from apps.plataforma.models import Curso, Usuario
 from apps.postulaciones.models import Ayudantia, Postulacion
-
-from django import forms
 
 
 class OfertasAyudantias(LoginRequiredMixin, ListView):
