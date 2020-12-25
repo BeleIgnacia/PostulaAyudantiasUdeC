@@ -1,9 +1,11 @@
 # PostulaAyudantiasUdeC
 Postulación a ayudantías DIICC
 
-Instalar django
+Instalar librerías
 
 ``pip install django``
+
+``pip install requests``
 
 Clonar el repo
 
