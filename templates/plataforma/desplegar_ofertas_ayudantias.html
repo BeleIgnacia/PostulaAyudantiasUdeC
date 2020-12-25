@@ -4,28 +4,28 @@
 
     {% if object_list %}
         <div class="card-deck" id="card-columns">
-            <div class="card-columns">
             {% for ayudantia in object_list %}
-                <div class="card shadow py-2">
-                    <div class="card-body">
-                        <h3 class="card-title mb-4">{{ ayudantia.curso.nombre }}</h3>
-                        <h6 class="card-subtitle mb-2 text-muted">Código: {{ ayudantia.curso.codigo }}</h6>
-                        <p class="card-text">Docente: {{ ayudantia.curso.docente }}</p>
-                        <p class="card-text">{{ ayudantia.descripcion }}</p>
-                        <p class="card-text">{{ ayudantia.horario }}</p>
-                        <div class="text-center">
-                            {% if not request.session.es_docente and not request.session.es_administrador %}
-                                <!-- Solo a alumno se le permite postular -->
-                                <a type="button" class="btn btn-block" data-toggle="modal" data-target="#ingresarDatos"
-                                   data-cursomodal='{ "id":"{{ ayudantia.id }}", "codigo":"{{ ayudantia.curso.codigo }}" ,"nombre_curso":"{{ ayudantia.curso.nombre }}" }'>Postular</a>
-                            {% endif %}
+                <div class="col col-sm-6 mb-4">
+                    <div class="card shadow py-2">
+                        <div class="card-body">
+                            <h3 class="card-title mb-4">{{ ayudantia.curso.nombre }}</h3>
+                            <h6 class="card-subtitle mb-2 text-muted">Código: {{ ayudantia.curso.codigo }}</h6>
+                            <p class="card-text">Docente: {{ ayudantia.curso.docente }}</p>
+                            <p class="card-text">{{ ayudantia.descripcion }}</p>
+                            <p class="card-text">{{ ayudantia.horario }}</p>
+                            <div class="text-center">
+                                {% if not request.session.es_docente and not request.session.es_administrador %}
+                                    <!-- Solo a alumno se le permite postular -->
+                                    <a type="button" class="btn btn-block" data-toggle="modal" data-target="#ingresarDatos"
+                                       data-cursomodal='{ "id":"{{ ayudantia.id }}", "codigo":"{{ ayudantia.curso.codigo }}" ,"nombre_curso":"{{ ayudantia.curso.nombre }}" }'>Postular</a>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
             {% endfor %}
-            </div>
-        </div>
 
+        </div>
         <div class="modal fade" id="ingresarDatos" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -60,6 +60,7 @@
                 </div>
             </div>
         </div>
+
     {% else %}
         <h1>No hay ofertas de asignaturas para el Semestre actual</h1>
     {% endif %}
@@ -90,19 +91,19 @@
             })
         });
 
-        $(document).ready(function (){
+        $(document).ready(function () {
             let borders = ['4px solid coral', '4px solid orange', '4px solid cornflowerblue', '4px solid #6FBB89', '4px solid #B57247'];
             let textColors = ['coral', 'orange', 'cornflowerblue', '#6FBB89', '#B57247'];
             i = 0;
 
-            $('.card').each(function (){
+            $('.card').each(function () {
                 $(this).css("border-left", borders[i]);
                 $(this).find('.card-title').css("color", textColors[i])
                 $(this).find('.btn').css("background-color", textColors[i]);
                 $(this).find('.btn').css("color", "white");
-                if(i != textColors.length-1){
+                if (i !== textColors.length - 1) {
                     i = i + 1;
-                }else{
+                } else {
                     i = 0;
                 }
             });
