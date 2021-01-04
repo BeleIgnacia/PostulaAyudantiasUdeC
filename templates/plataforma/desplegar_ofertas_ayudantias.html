@@ -1,7 +1,22 @@
 {% extends 'plataforma/dashboard.html' %}
 
 {% block content %}
-
+    <nav class="navbar navbar-expand navbar-light bg-light mb-4">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Ordenar por
+                </a>
+                <div class="dropdown-menu dropdown-menu-right animated--grow-in" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/postulaciones/ofertas_ayudantias/?order=puestos_asc">Puestos disponibles (ascendente)</a>
+                    <a class="dropdown-item" href="/postulaciones/ofertas_ayudantias/?order=puestos_des">Puestos disponibles (descendente)</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/postulaciones/ofertas_ayudantias/?order=fecha_asc">Fecha de ingreso mas reciente</a>
+                    <a class="dropdown-item" href="/postulaciones/ofertas_ayudantias/?order=fecha_des">Fecha de ingreso mas antigua</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
     {% if object_list %}
         <div class="card-deck" id="card-columns">
             {% for ayudantia in object_list %}
