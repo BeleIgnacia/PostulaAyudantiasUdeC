@@ -11,5 +11,6 @@ urlpatterns = [
     # Alumno 
     path('mis_postulaciones/', PostulacionesAlumno.as_view(), name='mis_postulaciones'),
     path('ofertas_ayudantias/', OfertasAyudantias.as_view(), name='listar_ofertas'),
-    path('ofertas_ayudantias/<str:order>/', OfertasAyudantias.as_view())
+    path('ofertas_ayudantias/<str:order>/', OfertasAyudantias.as_view()),
+    path('ofertas_ayudantias/<str:search>/', OfertasAyudantias.as_view())
 ]

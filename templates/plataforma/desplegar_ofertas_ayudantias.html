@@ -1,7 +1,17 @@
 {% extends 'plataforma/dashboard.html' %}
 
 {% block content %}
-    <nav class="navbar navbar-expand navbar-light bg-light mb-4">
+    <nav class="navbar navbar-expand mb-4">
+        <form action="/postulaciones/ofertas_ayudantias/?search=" class="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search">
+            <div class="input-group">
+                <input id="ayudantia_search" type="text" class="form-control border-secondary" placeholder="Buscar ayudantía." aria-label="Search" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <a id="btn_search" href="/postulaciones/ofertas_ayudantias/?search=" class="btn btn-primary" type="button">
+                        <i class="fas fa-search fa-sm"></i>
+                    </a>
+                </div>
+            </div>
+        </form>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -108,9 +118,12 @@
         });
 
         $(document).ready(function () {
+
+            let btn_search = $("#btn_search");
+
             let borders = ['4px solid coral', '4px solid orange', '4px solid cornflowerblue', '4px solid #6FBB89', '4px solid #B57247'];
             let textColors = ['coral', 'orange', 'cornflowerblue', '#6FBB89', '#B57247'];
-            i = 0;
+            let i = 0;
 
             $('.card').each(function () {
                 $(this).css("border-left", borders[i]);
@@ -122,6 +135,11 @@
                 } else {
                     i = 0;
                 }
+            });
+
+            $("#ayudantia_search").bind("change paste keyup", function () {
+                let url = "/postulaciones/ofertas_ayudantias/?search=" + $(this).val();
+                btn_search.attr("href", url);
             });
         });
     </script>

@@ -22,7 +22,7 @@ class OfertasAyudantias(LoginRequiredMixin, ListView):
         # Filtra las ayudantias a las cuales ya he postulado
         ayudantias = Ayudantia.objects.exclude(postulacion__in=postulaciones)
 
-        order = self.request.GET.get('order') # Parametro desde url
+        order = self.request.GET.get('order')  # Parametro order desde url
         if order == "puestos_asc":  # Con menor cantidad de puestos primero
             ayudantias = ayudantias.order_by('puestos')
         elif order == "puestos_des":  # Con mayor cantidad de puestos primero
@@ -31,6 +31,10 @@ class OfertasAyudantias(LoginRequiredMixin, ListView):
             ayudantias = ayudantias.order_by('fecha_ingreso')
         elif order == "fecha_des":  # De la más a reciente a la más antigua
             ayudantias = ayudantias.order_by('-fecha_ingreso')
+
+        search = self.request.GET.get('search')  # Parametro search desde url
+        if search is not None:
+            ayudantias = ayudantias.filter(curso__nombre__contains=search)
 
         return ayudantias
 
