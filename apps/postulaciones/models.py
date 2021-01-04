@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from apps.plataforma.models import Usuario, Curso
 
 
@@ -12,6 +13,7 @@ class Ayudantia(models.Model):
     descripcion = models.TextField()
     requisito = models.CharField(max_length=50)
     puestos = models.IntegerField(default=1)
+    fecha_ingreso = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return 'Ayudantía de {}'.format(self.curso)

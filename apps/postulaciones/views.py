@@ -16,11 +16,23 @@ class OfertasAyudantias(LoginRequiredMixin, ListView):
     form_class = RegistrarPostulacionAlumno
     template_name = 'plataforma/desplegar_ofertas_ayudantias.html'
 
-    # Filtra las ayudantias a las cuales ya he postulado
     def get_queryset(self):
         alumno = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
         postulaciones = Postulacion.objects.filter(alumno=alumno)
-        return Ayudantia.objects.exclude(postulacion__in=postulaciones)
+        # Filtra las ayudantias a las cuales ya he postulado
+        ayudantias = Ayudantia.objects.exclude(postulacion__in=postulaciones)
+
+        order = self.request.GET.get('order') # Parametro desde url
+        if order == "puestos_asc":  # Con menor cantidad de puestos primero
+            ayudantias = ayudantias.order_by('puestos')
+        elif order == "puestos_des":  # Con mayor cantidad de puestos primero
+            ayudantias = ayudantias.order_by('-puestos')
+        elif order == "fecha_asc":  # De la más a antigua a la más reciente
+            ayudantias = ayudantias.order_by('fecha_ingreso')
+        elif order == "fecha_des":  # De la más a reciente a la más antigua
+            ayudantias = ayudantias.order_by('-fecha_ingreso')
+
+        return ayudantias
 
     def post(self, request, *args, **kwargs):
         id_ayudantia = request.POST.get('id_ayudantia')
@@ -86,21 +98,21 @@ class NuevaAyudantia(UserPassesTestMixin, CreateView):
 # Postulaciones realizadas sobre mis ayudantias ofrecidas
 class PostulacionesRealizadas(LoginRequiredMixin, ListView):
     model = Postulacion
-    context_object_name =  'mis_ayudantias'
+    context_object_name = 'mis_ayudantias'
     template_name = 'postulaciones/postulaciones_realizadas.html'
-    
+
     # Filtra las postulaciones sobre mis ayudantias  
- 
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(PostulacionesRealizadas, self).get_context_data()
         docente = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
         context['cursos'] = Curso.objects.filter(docente=docente)
         ayudantias = Ayudantia.objects.filter(curso__docente=docente)
-        context['postulacion']= Postulacion.objects.filter(ayudantia__in=ayudantias)
-        
+        context['postulacion'] = Postulacion.objects.filter(ayudantia__in=ayudantias)
+
         print(context['postulacion'])
         return context
-    
+
     def post(self, request, *args, **kwargs):
         id_postulacion = request.POST.get('id_postulacion')
         postulacion = Postulacion.objects.filter(pk=id_postulacion)
@@ -119,6 +131,7 @@ class PostulacionesRealizadas(LoginRequiredMixin, ListView):
 
         return HttpResponseRedirect(reverse('postulaciones:mis_ayudantias'))
 
+
 class MisCursos(LoginRequiredMixin, ListView):
     model = Curso
     template_name = 'postulaciones/postulaciones_realizadas.html'
@@ -128,7 +141,6 @@ class MisCursos(LoginRequiredMixin, ListView):
         docente = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
         context['cursos'] = Curso.objects.filter(docente=docente)
         return context
-
 
     def post(self, request, *args, **kwargs):
         id_curso = request.POST.get['id_curso']

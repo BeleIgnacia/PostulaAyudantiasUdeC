@@ -11,8 +11,9 @@
                             <h3 class="card-title mb-4">{{ ayudantia.curso.nombre }}</h3>
                             <h6 class="card-subtitle mb-2 text-muted">Código: {{ ayudantia.curso.codigo }}</h6>
                             <p class="card-text">Docente: {{ ayudantia.curso.docente }}</p>
-                            <p class="card-text">{{ ayudantia.descripcion }}</p>
-                            <p class="card-text">{{ ayudantia.horario }}</p>
+                            <p class="card-text">Descripción: {{ ayudantia.descripcion }}</p>
+                            <p class="card-text">Horario: {{ ayudantia.horario }}</p>
+                            <p class="card-text">Puestos disponibles: {{ ayudantia.puestos }}</p>
                             <div class="text-center">
                                 {% if not request.session.es_docente and not request.session.es_administrador %}
                                     <!-- Solo a alumno se le permite postular -->
