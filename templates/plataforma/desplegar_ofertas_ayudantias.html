@@ -2,27 +2,25 @@
 
 {% block content %}
     <nav class="navbar navbar-expand mb-4">
-        <form action="/postulaciones/ofertas_ayudantias/?search=" class="d-none d-sm-inline-block form-inline mr-auto my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-                <input id="ayudantia_search" type="text" class="form-control border-secondary" placeholder="Buscar ayudantía." aria-label="Search" aria-describedby="basic-addon2">
-                <div class="input-group-append">
-                    <a id="btn_search" href="/postulaciones/ofertas_ayudantias/?search=" class="btn btn-primary" type="button">
-                        <i class="fas fa-search fa-sm"></i>
-                    </a>
-                </div>
+        <div class="input-group">
+            <input id="ayudantia_search" type="text" class="form-control border-secondary" placeholder="Buscar ayudantía." aria-label="Search" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <a id="btn_search" onclick="queryHandler('search', $('#ayudantia_search').val())" class="btn btn-primary" type="button">
+                    <i class="fas fa-search fa-sm"></i>
+                </a>
             </div>
-        </form>
+        </div>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Ordenar por
                 </a>
                 <div class="dropdown-menu dropdown-menu-right animated--grow-in" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/postulaciones/ofertas_ayudantias/?order=puestos_asc">Puestos disponibles (ascendente)</a>
-                    <a class="dropdown-item" href="/postulaciones/ofertas_ayudantias/?order=puestos_des">Puestos disponibles (descendente)</a>
+                    <a class="dropdown-item" onclick="queryHandler('sort', 'puestos_asc')">Puestos disponibles (ascendente)</a>
+                    <a class="dropdown-item" onclick="queryHandler('sort', 'puestos_des')">Puestos disponibles (descendente)</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/postulaciones/ofertas_ayudantias/?order=fecha_asc">Fecha de ingreso mas reciente</a>
-                    <a class="dropdown-item" href="/postulaciones/ofertas_ayudantias/?order=fecha_des">Fecha de ingreso mas antigua</a>
+                    <a class="dropdown-item" onclick="queryHandler('sort', 'fecha_asc')">Fecha de ingreso mas reciente</a>
+                    <a class="dropdown-item" onclick="queryHandler('sort', 'fecha_des')">Fecha de ingreso mas antigua</a>
                 </div>
             </li>
         </ul>
@@ -96,6 +94,14 @@
 
 {% block extrajs %}
     <script>
+
+        function queryHandler(type, value) {
+            let currentUrl = window.location.href;
+            let newUrl = new URL(currentUrl);
+            newUrl.searchParams.set(type, value);
+            window.location.href = newUrl.href;
+        }
+
         $('#ingresarDatos').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var recipient = button.data('cursomodal') // Extract info from data-* attributes
@@ -137,10 +143,14 @@
                 }
             });
 
-            $("#ayudantia_search").bind("change paste keyup", function () {
-                let url = "/postulaciones/ofertas_ayudantias/?search=" + $(this).val();
-                btn_search.attr("href", url);
+
+            $("#ayudantia_search").keypress(function (e) {
+                let code = (e.keyCode ? e.keyCode : e.which);
+                if (code === 13) {
+                    $("#btn_search").click();
+                }
             });
+
         });
     </script>
 {% endblock %}

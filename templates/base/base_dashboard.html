@@ -118,21 +118,21 @@
 <script>
     // Script de ubicación.
     $(document).ready(function () {
-        let arr = $(location).attr('href').split("/");
-        let url = arr.filter(function (el) {
+        let ubi_arr = $(location).attr('href').split("/");
+        let ubi_url = ubi_arr.filter(function (el) {
             return el !== "";
         });
-        if (url[url.length - 1] === "plataforma") {
+        if (ubi_url[ubi_url.length - 1] === "plataforma") {
             $("#li_inicio").addClass("active");
-        } else if (url[url.length - 1] === "nueva_ayudantia") {
+        } else if (ubi_url[ubi_url.length - 1] === "nueva_ayudantia") {
             $("#li_docente").addClass("active");
-        } else if (url[url.length - 1] === "mis_cursos") {
+        } else if (ubi_url[ubi_url.length - 1] === "mis_cursos") {
             $("#li_docente").addClass("active");
-        } else if (url[url.length - 1] === "mis_ayudantias") {
+        } else if (ubi_url[ubi_url.length - 1] === "mis_ayudantias") {
             $("#li_docente").addClass("active");
-        } else if (url[url.length - 1] === "mis_postulaciones") {
+        } else if (ubi_url[ubi_url.length - 1] === "mis_postulaciones") {
             $("#li_alumno").addClass("active");
-        } else if (url[url.length - 1] === "ofertas_ayudantias") {
+        } else if (ubi_url[ubi_url.length - 1] === "ofertas_ayudantias") {
             $("#li_ofertas").addClass("active");
         } else {
             $("#li_inicio").addClass("active");
