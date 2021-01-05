@@ -13,6 +13,15 @@
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Ver como
+                </a>
+                <div class="dropdown-menu dropdown-menu-right animated--grow-in" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" id="view_as_grid">Grilla</a>
+                    <a class="dropdown-item" id="view_as_list">Lista</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Ordenar por
                 </a>
                 <div class="dropdown-menu dropdown-menu-right animated--grow-in" aria-labelledby="navbarDropdown">
@@ -26,7 +35,7 @@
         </ul>
     </nav>
     {% if object_list %}
-        <div class="card-deck" id="card-columns">
+        <div class="card-deck" id="card_group">
             {% for ayudantia in object_list %}
                 <div class="col col-sm-6 mb-4">
                     <div class="card shadow py-2">
@@ -95,6 +104,7 @@
 {% block extrajs %}
     <script>
 
+        // Maneja la nueva url con multiples filtros
         function queryHandler(type, value) {
             let currentUrl = window.location.href;
             let newUrl = new URL(currentUrl);
@@ -125,7 +135,6 @@
 
         $(document).ready(function () {
 
-            let btn_search = $("#btn_search");
 
             let borders = ['4px solid coral', '4px solid orange', '4px solid cornflowerblue', '4px solid #6FBB89', '4px solid #B57247'];
             let textColors = ['coral', 'orange', 'cornflowerblue', '#6FBB89', '#B57247'];
@@ -143,7 +152,7 @@
                 }
             });
 
-
+            // Maneja el evento de presionar enter sobre el recuadro de búsqueda
             $("#ayudantia_search").keypress(function (e) {
                 let code = (e.keyCode ? e.keyCode : e.which);
                 if (code === 13) {
@@ -151,6 +160,23 @@
                 }
             });
 
+            // Vista como lista
+            $("#view_as_list").on('click',function (){
+                let card_group = $("#card_group");
+                card_group.removeClass('card-deck');
+                card_group.children('div').each(function (){
+                    $(this).removeClass('col-sm-6');
+                });
+            });
+
+            // Vista como grilla
+            $("#view_as_grid").on('click',function (){
+                let card_group = $("#card_group");
+                card_group.addClass('card-deck');
+                card_group.children('div').each(function (){
+                    $(this).addClass('col-sm-6');
+                });
+            });
         });
     </script>
 {% endblock %}
