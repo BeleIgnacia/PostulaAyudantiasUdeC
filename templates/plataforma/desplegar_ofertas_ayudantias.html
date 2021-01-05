@@ -135,7 +135,6 @@
 
         $(document).ready(function () {
 
-
             let borders = ['4px solid coral', '4px solid orange', '4px solid cornflowerblue', '4px solid #6FBB89', '4px solid #B57247'];
             let textColors = ['coral', 'orange', 'cornflowerblue', '#6FBB89', '#B57247'];
             let i = 0;
@@ -152,6 +151,25 @@
                 }
             });
 
+            // Lee la forma de desplegar desde las cookies
+            let view_as = Cookies.get('view_as');
+            // Aquí ajusta la lista de ayudantías
+            if (view_as === undefined){
+                Cookies.set('view_as', 'grid');
+            }else if(view_as === 'grid'){
+                let card_group = $("#card_group");
+                card_group.addClass('card-deck');
+                card_group.children('div').each(function (){
+                    $(this).addClass('col-sm-6');
+                });
+            }else if(view_as === 'list'){
+                let card_group = $("#card_group");
+                card_group.removeClass('card-deck');
+                card_group.children('div').each(function (){
+                    $(this).removeClass('col-sm-6');
+                });
+            }
+
             // Maneja el evento de presionar enter sobre el recuadro de búsqueda
             $("#ayudantia_search").keypress(function (e) {
                 let code = (e.keyCode ? e.keyCode : e.which);
@@ -167,6 +185,7 @@
                 card_group.children('div').each(function (){
                     $(this).removeClass('col-sm-6');
                 });
+                Cookies.set('view_as', 'list');
             });
 
             // Vista como grilla
@@ -176,6 +195,7 @@
                 card_group.children('div').each(function (){
                     $(this).addClass('col-sm-6');
                 });
+                Cookies.set('view_as', 'grid');
             });
         });
     </script>
