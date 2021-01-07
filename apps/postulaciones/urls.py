@@ -1,7 +1,6 @@
 from django.urls import path
 
-from apps.plataforma.views import Dashboard
-from apps.postulaciones.views import NuevaAyudantia, OfertasAyudantias, PostulacionesRealizadas, PostulacionesAlumno, MisCursos
+from apps.postulaciones.views import NuevaAyudantia, OfertasAyudantias, PostulacionesRealizadas, PostulacionesAlumno
 
 urlpatterns = [
     # Docente

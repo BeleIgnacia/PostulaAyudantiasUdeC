@@ -26,8 +26,8 @@ class Postulacion(models.Model):
     fecha = models.DateField(auto_now=True)
     hora = models.TimeField(auto_now=True)
     estado = models.BooleanField(default=False)
-    semestreramo=models.CharField(max_length=6)
-    nota=models.IntegerField(default=0)
+    semestreramo = models.CharField(max_length=6)
+    nota = models.IntegerField(default=0)
 
     def __str__(self):
         return 'Postulación de {} a {}'.format(self.alumno, self.ayudantia)

@@ -57,8 +57,34 @@
                     </div>
                 </div>
             {% endfor %}
-
         </div>
+        <!-- paginator / paginador -->
+        {% if is_paginated %}
+            <ul class="pagination justify-content-center pagination-sm">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" onclick="queryHandler('page', {{ page_obj.previous_page_number }});" tabindex="-1">Previous</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                    </li>
+                {% endif %}
+                {% for object in page_obj.paginator.page_range %}
+                    <li class="page-item"><a class="page-link" onclick="queryHandler('page', {{ forloop.counter }});">{{ forloop.counter }}</a></li>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" onclick="queryHandler('page', {{ page_obj.next_page_number }});">Next</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        {% endif %}
+        <!-- Modal -->
         <div class="modal fade" id="ingresarDatos" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -108,6 +134,10 @@
         function queryHandler(type, value) {
             let currentUrl = window.location.href;
             let newUrl = new URL(currentUrl);
+            // Evita que la búsqueda sea únicamente sobre la misma página
+            if (type === "search"){
+                newUrl.searchParams.delete('page');
+            }
             newUrl.searchParams.set(type, value);
             window.location.href = newUrl.href;
         }
@@ -154,18 +184,18 @@
             // Lee la forma de desplegar desde las cookies
             let view_as = Cookies.get('view_as');
             // Aquí ajusta la lista de ayudantías
-            if (view_as === undefined){
+            if (view_as === undefined) {
                 Cookies.set('view_as', 'grid');
-            }else if(view_as === 'grid'){
+            } else if (view_as === 'grid') {
                 let card_group = $("#card_group");
                 card_group.addClass('card-deck');
-                card_group.children('div').each(function (){
+                card_group.children('div').each(function () {
                     $(this).addClass('col-sm-6');
                 });
-            }else if(view_as === 'list'){
+            } else if (view_as === 'list') {
                 let card_group = $("#card_group");
                 card_group.removeClass('card-deck');
-                card_group.children('div').each(function (){
+                card_group.children('div').each(function () {
                     $(this).removeClass('col-sm-6');
                 });
             }
@@ -179,20 +209,20 @@
             });
 
             // Vista como lista
-            $("#view_as_list").on('click',function (){
+            $("#view_as_list").on('click', function () {
                 let card_group = $("#card_group");
                 card_group.removeClass('card-deck');
-                card_group.children('div').each(function (){
+                card_group.children('div').each(function () {
                     $(this).removeClass('col-sm-6');
                 });
                 Cookies.set('view_as', 'list');
             });
 
             // Vista como grilla
-            $("#view_as_grid").on('click',function (){
+            $("#view_as_grid").on('click', function () {
                 let card_group = $("#card_group");
                 card_group.addClass('card-deck');
-                card_group.children('div').each(function (){
+                card_group.children('div').each(function () {
                     $(this).addClass('col-sm-6');
                 });
                 Cookies.set('view_as', 'grid');

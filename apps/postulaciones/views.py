@@ -15,6 +15,7 @@ class OfertasAyudantias(LoginRequiredMixin, ListView):
     model = Postulacion
     form_class = RegistrarPostulacionAlumno
     template_name = 'plataforma/desplegar_ofertas_ayudantias.html'
+    paginate_by = 3
 
     def get_queryset(self):
         alumno = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
