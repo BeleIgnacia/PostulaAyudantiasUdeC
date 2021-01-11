@@ -10,7 +10,7 @@
                         <h6 class="m-0 font-weight-bold text-primary">Mi perfil</h6>
                     </div>
                     <!-- Card Body -->
-                    <div class="card-body">
+                        <div class="card-body">
                         <form method="post" class="col">
                             {% csrf_token %}
                             {% if messages %}
@@ -49,7 +49,12 @@
                                 {{ field.label }}:<br>
                                 {{ field }}<br><br>
                             {% endfor %}
-                            <input type="submit" value="Guardar" class="btn btn-primary btn-block">
+                            <div> <p>Subir el registro de notas</p></div>
+                            <form action="/action_page.php">
+                                <input type="file" id="myFile" name="filename">
+                                <input type="submit" value = "Subir">
+                            </form>
+                            <input type="submit" value="Guardar" class="btn btn-primary btn-block" style="margin-top: 30px;">
                         </form>
                     </div>
                 </div>
