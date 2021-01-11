@@ -92,7 +92,10 @@ def iniciar_sesion(request):
             request.session['last_name'] = usuario.last_name
             request.session['email'] = usuario.email
             # Redirige
-            return HttpResponseRedirect(reverse('plataforma:dashboard'))
+            if usuario.es_docente:
+                return HttpResponseRedirect(reverse('postulaciones:mis_ayudantias'))
+            else:
+                return HttpResponseRedirect(reverse('postulaciones:listar_ofertas'))
         pass
 
     # Contexto con variables que se le entrega al template

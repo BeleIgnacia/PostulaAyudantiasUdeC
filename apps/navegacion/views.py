@@ -1,4 +1,6 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse_lazy, reverse
 
 from django.views.generic import View, TemplateView
 
@@ -6,7 +8,10 @@ from django.views.generic import View, TemplateView
 class Inicio(View):
     def get(self, request):
         if request.user.is_authenticated:
-            return render(request, 'plataforma/dashboard.html')
+            if self.request.session.get('es_docente', ''):
+                return HttpResponseRedirect(reverse('postulaciones:mis_ayudantias'))
+            else:
+                return HttpResponseRedirect(reverse('postulaciones:listar_ofertas'))
         else:
             return render(request, 'navegacion/inicio.html')
 
