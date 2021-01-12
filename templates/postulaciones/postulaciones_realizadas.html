@@ -24,7 +24,7 @@
                         <div class="collapse multi-collapse" id= {{ postulacion.ayudantia.curso }} >
                         <!-- Card Header - Dropdown -->
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold" style="color: white;"> Postulación a {{ postulacion.ayudantia.curso }}</h6>
+                                <h6 class="m-0 font-weight-bold" style="color: white;"> Postulación a {{ postulacion.ayudantia.curso.nombre }}</h6>
                             </div>
                             <!-- Card Body -->
                             <div class="card-body row shadow ">
@@ -37,7 +37,7 @@
                                     <div class="row">
                                         <div class="col col-sm-7" style="margin-left: 20%;">
                                             <button type="button" class="btn btn-block" data-toggle="modal" data-target="#detallesPostulacion"
-                                                    data-postulacionmodal='{ "id":"{{ postulacion.id }}", "ayudantia_curso":"{{ postulacion.ayudantia.curso }}", "ayudantia_semestre":"{{ postulacion.ayudantia.semestre }}", "ayudantia_descripcion":"{{ postulacion.ayudantia.descripcion }}", "ayudantia_horario":"{{ postulacion.ayudantia.horario }}", "puestos":"{{ postulacion.ayudantia.puestos }}",
+                                                    data-postulacionmodal='{ "id":"{{ postulacion.id }}", "ayudantia_curso":"{{ postulacion.ayudantia.curso.nombre }}", "ayudantia_semestre":"{{ postulacion.ayudantia.semestre }}", "ayudantia_descripcion":"{{ postulacion.ayudantia.descripcion }}", "ayudantia_horario":"{{ postulacion.ayudantia.horario }}", "puestos":"{{ postulacion.ayudantia.puestos }}",
                                             "alumno":"{{ postulacion.alumno }}", "email":"{{ postulacion.alumno.email }}", "fecha":"{{ postulacion.fecha }}", "hora":"{{ postulacion.hora }}", "nota":"{{ postulacion.nota }}", "semestre_ramo":"{{ postulacion.semestreramo }}", "area":"{{ postulacion.alumno.area }}", "anio_carrera":"{{ postulacion.alumno.etapa_carrera }}", "intereses":"{{ postulacion.alumno.intereses }}", "estado":"{{ postulacion.estado }}"}'>
                                                 Ver más
                                             </button>

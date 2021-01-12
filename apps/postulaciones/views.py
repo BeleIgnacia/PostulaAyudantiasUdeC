@@ -167,3 +167,10 @@ class PostulacionesAlumno(ListView):
     def get_queryset(self):
         alumno = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
         return Postulacion.objects.filter(alumno=alumno)
+
+    def post(self, request, *args, **kwargs):
+        id_postulacion = request.POST.get('id_postulacion')
+        postulacion = Postulacion.objects.filter(pk=id_postulacion)
+        postulacion.delete()
+
+        return HttpResponseRedirect(reverse('postulaciones:mis_postulaciones'))

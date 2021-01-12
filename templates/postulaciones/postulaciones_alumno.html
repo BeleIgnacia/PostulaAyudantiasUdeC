@@ -11,19 +11,24 @@
                     <div class="card shadow mb-4">
                         <!-- Card Header - Dropdown -->
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold" style="color: white;">Postulaste a {{ postulacion.ayudantia.curso }}</h6>
+                            <h6 class="m-0 font-weight-bold" style="color: white;">Postulaste a {{ postulacion.ayudantia.curso.nombre }}</h6>
+                            <div>
+                                <a type="button" style="color:white;" data-toggle="modal" data-target="#eliminarPostulacion"
+                                    data-postulacionmodal='{ "id_postulacion":"{{ postulacion.id }}", "nombre_ayudantia":"{{ postulacion.ayudantia.curso.nombre }}" }'><i class="far fa-trash-alt"></i>
+                                </a>
+                            </div>
                         </div>
                         <!-- Card Body -->
                         <div class="card-body row">
                             <div class="col col-sm-9">
-                                <h4 class="card-title"> Solicitud para ayudantía de {{ postulacion.ayudantia.curso }} </h4>
+                                <h4 class="card-title"> Solicitud para ayudantía de {{ postulacion.ayudantia.curso.nombre }} </h4>
                                 <p class="card-text">Realizada con fecha {{ postulacion.fecha }} y hora {{ postulacion.hora }}</p>
                                 <p class="card-text">Puestos disponibles: {{ postulacion.ayudantia.puestos }}</p>
                             </div>
                             <div style="border-left: 0.5px solid gainsboro; height: auto;"></div>
                             <div class="col col-sm-2" style="margin: auto 0;">
                                 <div class="row">
-                                    <div class="col col-sm-12" style="margin-left: 20%; background-color: ;">
+                                    <div class="col col-sm-12" style="margin-left: 20%;">
                                         <span>Estado de solicitud:</span>
                                         <br>
                                         {% if postulacion.estado == True %}
@@ -44,6 +49,36 @@
     {% else %}
         No se han hecho postulaciones
     {% endif %}
+
+    <div class="modal fade" id="eliminarPostulacion" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="color: firebrick" id="exampleModalLabel">Eliminar postulación</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <p>¿Quieres eliminar tu postulación a la ayudantía del curso <span id="ayudantia_nombre">ayudantía</span>?</p> 
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <form id="form_accept" method="post">
+                        {% csrf_token %}
+                        <div>
+                            <input id="id_postulacion_form" type="hidden" value=' ' name="id_postulacion">
+                            <input id="boton_eliminar" type="submit" class="btn" style="background-color: firebrick; color: white;" value="Aceptar"/>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block extrajs %}
@@ -62,6 +97,20 @@
                     i = 0;
                 }
             });
+        });
+    </script>
+
+    <script>
+        $('#eliminarPostulacion').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var recipient = button.data('postulacionmodal') // Extract info from data-* attributes
+
+            var modal = $(this)
+            modal.find("#ayudantia_nombre").text( recipient.nombre_ayudantia )
+
+            $("#boton_eliminar").click(function (event) {
+                $("#id_postulacion_form").val( recipient.id_postulacion )
+            })
         });
     </script>
 {% endblock %}
