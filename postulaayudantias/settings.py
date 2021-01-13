@@ -122,3 +122,7 @@ STATIC_URL = '/static/'
 
 # Directorio de archivos estaticos
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
+# Directorio de archivos subidos
+MEDIA_ROOT = (os.path.join(BASE_DIR, 'media/'))
+MEDIA_URL = '/media/'
