@@ -10,7 +10,7 @@
                         <h6 class="m-0 font-weight-bold text-primary">Mi perfil</h6>
                     </div>
                     <!-- Card Body -->
-                        <div class="card-body">
+                    <div class="card-body">
                         <form method="post" class="col" enctype="multipart/form-data">
                             {% csrf_token %}
                             {% if messages %}
@@ -44,14 +44,27 @@
                                     {{ request.session.last_name }}
                                 </div>
                             </div>
-                        <hr>
+                            <hr>
                             {% for field in form %}
                                 {{ field.label }}:<br>
                                 {{ field }}<br><br>
                             {% endfor %}
-                            <div> <p>Subir el registro de notas</p></div>
-                            <input type="file" id="myFile" name="filename">
-                            <input type="submit" value="Guardar" class="btn btn-primary btn-block" style="margin-top: 30px;">
+                            <div>
+                                <p>
+                                    Subir el registro de notas:
+                                    {% if usuario.registro_notas %}
+                                        <button type="button" class="btn" data-container="body" data-toggle="popover" data-placement="right" data-content="Ya tiene un registro ingresado, publicar uno nuevo sobreescribira el anterior.">
+                                            <i class="far fa-check-circle text-success"></i>
+                                        </button>
+                                    {% else %}
+                                        <button type="button" class="btn" data-container="body" data-toggle="popover" data-placement="right" data-content="Aún no ha ingresado un registro de notas.">
+                                            <i class="fas fa-ban text-danger"></i>
+                                        </button>
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <input class="form-control-file" type="file" id="myFile" name="filename">
+                            <input class="btn btn-primary btn-block" type="submit" value="Guardar" style="margin-top: 30px;">
                         </form>
                     </div>
                 </div>
@@ -60,4 +73,12 @@
     {% else %}
         <h2>Entrada invalida, acceso no autorizado.</h2>
     {% endif %}
+{% endblock %}
+
+{% block extrajs %}
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        });
+    </script>
 {% endblock %}

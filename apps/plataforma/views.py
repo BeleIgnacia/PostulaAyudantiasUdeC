@@ -131,6 +131,8 @@ class ActualizarPerfil(LoginRequiredMixin, UpdateView):
         path = self.request.path_info.split("/")
         if self.request.session.get('pk_usuario', '') == int(path[-2]):
             context['mi_perfil'] = True
+        usuario = Usuario.objects.get(pk=self.request.session.get('pk_usuario', ''))
+        context['usuario'] = usuario
         return context
 
     def get_success_url(self):
