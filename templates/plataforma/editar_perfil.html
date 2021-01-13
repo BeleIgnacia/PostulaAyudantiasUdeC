@@ -11,7 +11,7 @@
                     </div>
                     <!-- Card Body -->
                         <div class="card-body">
-                        <form method="post" class="col">
+                        <form method="post" class="col" enctype="multipart/form-data">
                             {% csrf_token %}
                             {% if messages %}
                                 <ul class="alert alert-danger">
@@ -50,10 +50,7 @@
                                 {{ field }}<br><br>
                             {% endfor %}
                             <div> <p>Subir el registro de notas</p></div>
-                            <form action="/action_page.php">
-                                <input type="file" id="myFile" name="filename">
-                                <input type="submit" value = "Subir">
-                            </form>
+                            <input type="file" id="myFile" name="filename">
                             <input type="submit" value="Guardar" class="btn btn-primary btn-block" style="margin-top: 30px;">
                         </form>
                     </div>

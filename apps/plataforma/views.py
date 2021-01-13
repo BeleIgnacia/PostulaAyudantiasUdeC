@@ -136,6 +136,13 @@ class ActualizarPerfil(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse('plataforma:perfil', kwargs={'pk': self.object.pk})
 
+    def form_valid(self, form):
+        usuario = form.save(commit=False)
+        # file = self.request.FILES.get('filename')
+        print(self.request.FILES.get('filename'))
+        usuario.save()
+        return HttpResponseRedirect(reverse_lazy('plataforma:perfil', kwargs={'pk': usuario.pk}))
+
 
 class MisCursos(LoginRequiredMixin, ListView):
     model = Curso
