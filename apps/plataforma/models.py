@@ -6,6 +6,7 @@ from django.db import models
 def user_path(instance, filename):
     return '{0}/{1}'.format(instance.user.id, filename)
 
+
 # Usuario hereda de User
 # Atributos y metodos de User => https://docs.djangoproject.com/en/3.1/ref/contrib/auth/
 class Usuario(User):
@@ -35,6 +36,7 @@ class Usuario(User):
     etapa_carrera = models.IntegerField(default=0, choices=ETAPAS)
     area = models.CharField(max_length=20, default=0, choices=AREAS)
     registro_notas = models.FileField(upload_to=user_path, null=True, blank=True)
+
 
 # Esta función se usa para representar el objeto al realizar una query
 def __str__(self):

@@ -115,7 +115,7 @@ class PostulacionesRealizadas(LoginRequiredMixin, ListView):
         ayudantias = Ayudantia.objects.filter(curso__docente=docente)
         context['postulacion'] = Postulacion.objects.filter(ayudantia__in=ayudantias)
 
-        print(context['postulacion'])
+        # print(context['postulacion'])
         return context
 
     def post(self, request, *args, **kwargs):

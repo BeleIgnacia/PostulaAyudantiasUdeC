@@ -138,12 +138,12 @@ class ActualizarPerfil(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         usuario = form.save(commit=False)
-        usuario.registro_notas = self.request.FILES.get('filename')
-        
-        #print(usuario)
-        #print(self.request.FILES.get('filename'))
-
-        usuario.save()
+        file = self.request.FILES.get('filename')
+        file._set_name("registro_de_notas_" + str(usuario.pk) + ".pdf")  # Setea el nombre del pdf
+        if usuario.registro_notas is not None:
+            usuario.registro_notas.delete()  # Elimina registro anterior en caso de existir
+        usuario.registro_notas = file  # Direcciona el modelo de registro al archivo en memoria
+        usuario.save()  # Guarda el usuario y por consiguiente el pdf
         return HttpResponseRedirect(reverse_lazy('plataforma:perfil', kwargs={'pk': usuario.pk}))
 
 
