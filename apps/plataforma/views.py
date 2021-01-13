@@ -138,8 +138,11 @@ class ActualizarPerfil(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         usuario = form.save(commit=False)
-        # file = self.request.FILES.get('filename')
-        print(self.request.FILES.get('filename'))
+        usuario.registro_notas = self.request.FILES.get('filename')
+        
+        #print(usuario)
+        #print(self.request.FILES.get('filename'))
+
         usuario.save()
         return HttpResponseRedirect(reverse_lazy('plataforma:perfil', kwargs={'pk': usuario.pk}))
 
